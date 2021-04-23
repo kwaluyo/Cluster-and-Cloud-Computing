@@ -6,4 +6,4 @@ COPY requirements.txt /tmp
 RUN pip install -r /tmp/requirements.txt
 
 WORKDIR /harvester
-CMD ["python3", "tweet_streamer.py"]
+CMD ["python3", "stream_tweet.py"]
