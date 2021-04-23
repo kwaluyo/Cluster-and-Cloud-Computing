@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# tweepy-bots/bots/tweet_streamer.py
+# tweepy-harvester/harvester/stream_tweet.py
 
 from __future__ import absolute_import, print_function
 

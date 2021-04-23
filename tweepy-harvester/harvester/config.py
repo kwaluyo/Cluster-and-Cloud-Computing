@@ -1,4 +1,4 @@
-# tweepy-bots/bots/config.py
+# tweepy-harvester/harvester/config.py
 import tweepy
 import logging
 import os
@@ -19,7 +19,7 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
 # Change value to filter out tweets intended for analysis
 # FILTER = [140.928224, -39.449811, 150.024903, -33.959390] # filter tweets from VICTORIA
-FILTER = [144.593742, -38.433859, 145.512529,-37.511274] # filter tweets from AUSTRALIA
+FILTER = [113.338953078, -43.6345972634, 153.569469029, -10.6681857235] # filter tweets from AUSTRALIA
 
 def create_api():
     consumer_key = TWITTER_CONSUMER_KEY
