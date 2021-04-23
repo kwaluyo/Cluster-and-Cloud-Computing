@@ -1,0 +1,9 @@
+FROM python:3
+
+COPY harvester/config.py /harvester/
+COPY harvester/stream_tweet.py /harvester/
+COPY requirements.txt /tmp
+RUN pip install -r /tmp/requirements.txt
+
+WORKDIR /harvester
+CMD ["python3", "tweet_streamer.py"]
