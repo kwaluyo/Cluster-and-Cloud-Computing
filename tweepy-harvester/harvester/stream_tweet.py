@@ -5,8 +5,10 @@ from __future__ import absolute_import, print_function
 
 from tweepy import OAuthHandler, Stream, StreamListener
 import logging
-from config import create_api, FILTER
+import threading
+from config import create_api, FILTER_GEOLOCATION
 import json
+import time
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -22,24 +24,39 @@ class DBStreamListener(StreamListener):
         self.api = api
         self.me = api.me()
         
-        self.save_file = open('twitter.json','a')
-        
         super().__init__()
 
     def on_status(self, tweet):
         logger.info(f"Processing tweet id {tweet.id}")
-        
-    def on_data(self, tweet):   
-        self.save_file.write(str(tweet).strip("\n"))
+        save_file = open('twitter.jsonl', 'a', encoding="utf8")
+        save_file.write("["+json.dumps(tweet._json, separators=(',', ':'))+"]\n")
+        save_file.close()
 
     def on_error(self, status):
         logger.error(status)
+        if status == 420:
+
+            # Rate limit reached, wait 15 minutes
+            time.sleep(900)
+            return False
+
+        # Reconnect to server
+        return True
+
 
 def main():
     api = create_api()
     stream_listener = DBStreamListener(api)
-    stream = Stream(api.auth, stream_listener)
-    stream.filter(locations=FILTER)
+    
+    while True:
+        try:
+            # Listen for tweet
+            stream = Stream(api.auth, stream_listener)
+            stream.filter(locations=FILTER_GEOLOCATION)
+            
+        except KeyboardInterrupt: 
+            break
+
 
 if __name__ == "__main__":
     main()
