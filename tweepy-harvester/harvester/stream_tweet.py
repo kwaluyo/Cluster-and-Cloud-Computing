@@ -57,6 +57,10 @@ def main():
         except KeyboardInterrupt: 
             break
 
+        except Exception as e:
+            logger.error(e)
+            continue
+
 
 if __name__ == "__main__":
     main()
