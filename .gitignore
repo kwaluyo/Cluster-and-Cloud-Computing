@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# Secret config files
+config*.json
+
+# Twitter files
+twitter.*
+
 # Distribution / packaging
 .Python
 build/
