@@ -1,0 +1,62 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+
+# Volume
+volumes:
+  - vol_name: instance-1-volume
+    vol_size: 60
+  - vol_name: instance-2-volume
+    vol_size: 60
+  - vol_name: instance-3-volume
+    vol_size: 60
+  - vol_name: instance-4-volume
+    vol_size: 60
+
+# Security group
+security_groups:
+  - name: instance-1-security
+    description: "instance 1 security group"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: instance-2-security
+    description: "instance 2 security group"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+  - name: instance-3-security
+    description: "instance 3 security group"
+    protocol: tcp
+    port_range_min: 8080
+    port_range_max: 8080
+    remote_ip_prefix: 0.0.0.0/0
+  - name: instance-4-security
+    description: "instance 4 security group"
+    protocol: tcp
+    port_range_min: 443
+    port_range_max: 443
+    remote_ip_prefix: 0.0.0.0/0
+
+# Instance
+instances:
+  - name: instance-1
+    security_groups: instance-1-security
+    volumes: [instance-1-volume]
+    instance_flavor: uom.mse.2c9g
+  - name: instance-2
+    security_groups: instance-2-security
+    volumes: [instance-2-volume]
+    instance_flavor: uom.mse.2c9g
+  - name: instance-3
+    security_groups: instance-3-security
+    volumes: [instance-3-volume]
+    instance_flavor: uom.mse.2c9g
+  - name: instance-4
+    security_groups: instance-4-security
+    volumes: [instance-4-volume]
+    instance_flavor: uom.mse.1c4g
+
+instance_image: f8b79936-6616-4a22-b55d-0d0a1d27bceb
+instance_key_name: comp90024
