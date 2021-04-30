@@ -27,6 +27,11 @@ def load_config():
 
             if not 'LOCATION' in config:
                 print('File', cf, ': Search location not found.')
+                exit(1)
+
+            if not 'SINCE_ID' in config:
+                print('File', cf, ': Since ID not found.')
+                exit(1)
 
             cfg.append(config)
 

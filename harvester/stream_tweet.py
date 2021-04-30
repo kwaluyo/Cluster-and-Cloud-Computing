@@ -4,6 +4,7 @@
 from __future__ import absolute_import, print_function
 
 from tweepy import API, OAuthHandler, Stream, StreamListener
+import threading
 import logging
 import json
 import time
@@ -19,7 +20,7 @@ class DBStreamListener(StreamListener):
     """
     
     def on_status(self, tweet):
-        logger.info(f"Processing tweet id {tweet.id}")
+        logger.info(f"Stream: Processing tweet id {tweet.id}")
         save_file = open('twitter.jsonl', 'a', encoding="utf8")
         save_file.write("["+json.dumps(tweet._json, separators=(',', ':'))+"]\n")
         save_file.close()
@@ -42,55 +43,28 @@ class DBStreamListener(StreamListener):
             time.sleep(10)
 
 
-def main():
-
-    # read in Twitter credentials and search criteria
+def start_listener(api, stream_listener, keywords, location):
     try:
-        with open('config.json', "r") as f:
-            config = json.load(f)
-            
-            if not 'TWITTER' in config:
-                logger.error("Twitter account not found.") 
-                exit(1)
-            
-            if not 'KEYWORDS' in config:
-                logger.error("Search keywords not found.")
-                exit(1)
+        stream = Stream(api.auth, stream_listener, tweet_mode='extended')
+        stream.filter(languages=["en"], track=keywords, is_async=True, locations=location['ALL'])
+        logger.info("Stream listener started.")
+    except Exception as e:
+        logger.error("Start stream Error:", e)
 
-            if not 'LOCATION' in config:
-                logger.error("Search location not found.")
 
-            account = config['TWITTER']
-            keywords = config['KEYWORDS']
-            location = config['LOCATION']
+def main(api, config):
 
-    except IOError:
-        logger.error("A config file was not found.")
-        exit(1)
+    # read in search criteria
+    keywords = config['KEYWORDS']
+    location = config['LOCATION']
 
     # create instance of stream listener
     stream_listener = DBStreamListener()
-    auth = OAuthHandler(consumer_key=account["CONSUMER_KEY"], consumer_secret=account["CONSUMER_SECRET"])
-    auth.set_access_token(account["ACCESS_TOKEN"], account["ACCESS_TOKEN_SECRET"])
-
-    api = API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-
-    # verify Twitter credentials
-    try:
-        api.verify_credentials()
-
-    except Exception as e:
-        logger.error("Failed to verify Twitter credentials.", exc_info=True)
-        exit(1)
-
-    logger.info("Twitter credentials verified.")
-
+    
     # start stream listener
-    stream = Stream(auth, stream_listener, tweet_mode='extended')
-    stream.filter(track=keywords, is_async=True, locations=location)
-
-    logger.info("Stream listener started.")
-
-
-if __name__ == "__main__":
-    main()
+    try:
+        stream = Stream(api.auth, stream_listener, tweet_mode='extended')
+        stream.filter(languages=["en"], track=keywords, is_async=True, locations=location['ALL'])
+        logger.info("Stream listener started.")
+    except Exception as e:
+        logger.error("Start stream Error:", e)
