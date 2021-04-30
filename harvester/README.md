@@ -6,9 +6,9 @@ Create your own config.json with your Twitter account credentials and search wor
  - You can replace SYDNEY, MELBOURNE, BRISBANE, and ADELAIDE with cities you want to search tweets from.
     - Note that the value is specified by “latitide,longitude,radius”, where radius units must be specified as either “mi” (miles) or “km” (kilometers).
 
-it should looks like this
+The config file should looks like this:
 
-```
+```json
 {
     "TWITTER":
     {
