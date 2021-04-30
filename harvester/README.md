@@ -8,13 +8,14 @@ Create your own config.json with your Twitter account credentials and search wor
 
 it should looks like this
 
+```
 {
     "TWITTER":
     {
-        "CONSUMER_KEY":"",
-        "CONSUMER_SECRET":"",
-        "ACCESS_TOKEN":"",
-        "ACCESS_TOKEN_SECRET":""
+        "CONSUMER_KEY":"GjfcENWzEQi3xQoHnbCKyIN1z",
+        "CONSUMER_SECRET":"bNyZYY0dHWrxz6BCA6EKOxLhNuIJnns8n0Djd2gRr1wgmLBTWh",
+        "ACCESS_TOKEN":"1385210210604785667-5k4c3UhEc3BDR4O6tO0vglPduvM9QB",
+        "ACCESS_TOKEN_SECRET":"Kk74fiHJMQkdehUx9TPSAFgbwOLHjy2aVIwtNvbPNCtDR"
     },
     "KEYWORDS":[],
     "LOCATION":
@@ -33,3 +34,4 @@ it should looks like this
     },
     "SINCE_ID":1219755883690774529
 }
+```
