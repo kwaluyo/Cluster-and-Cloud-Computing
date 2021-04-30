@@ -13,16 +13,22 @@ logger = logging.getLogger()
 
 
 def search_city(api, location, city, since_id):
+    """
+    Search tweets within a specified radius from city center (latitude and longitude).
+    Depending on Twitter Developer Account type, it can search tweets from the full archive or,
+    search tweets from the last 7 days.
+    """
     if not os.path.isdir(city+"/"):
         os.makedirs(city)
     
     path = city + "/" + str(datetime.date.today())+".jsonl"
     save_file = open(path, 'a', encoding="utf8")
 
-    # Scrape tweets from January 2020
+    # Scrape tweets from January 2020 or the past 7 days
     try:
         for i in range(50):
-
+            # Returns tweets by users located within a given radius of the given latitude/longitude. 
+            # The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile.
             # There are limits to the number of Tweets which can be accessed through the API. 
             # If the limit of Tweets has occurred since the since_id, the since_id will be forced to the oldest ID available.
             for tweet in api.search(lang=["en"], geocode=location, count=100, since_id=since_id):
