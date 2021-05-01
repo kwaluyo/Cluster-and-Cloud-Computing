@@ -1,0 +1,14 @@
+# Configure instances with common requirements.
+- hosts: all
+  vars_files:
+    - host_vars/config.yaml
+  gather_facts: true
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  roles:
+    - add-proxy
+    - install-dependencies
+    - install-docker
+    - mount-volumes
