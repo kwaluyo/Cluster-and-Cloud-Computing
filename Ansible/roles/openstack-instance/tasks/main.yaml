@@ -29,3 +29,11 @@
     search_regex: OpenSSH
   loop: '{{ os_instance.results }}'
   when: item.openstack is defined
+
+# Add hosts to Ansible in-memory inventory
+- name: Add hosts to Ansible in-memory inventory
+  add_host:
+    name: '{{ item.openstack.public_v4 }}'
+    groups: instances
+  loop: '{{ os_instance.results }}'
+  when: item.openstack is defined

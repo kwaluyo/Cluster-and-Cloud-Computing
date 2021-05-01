@@ -3,7 +3,7 @@ availability_zone: melbourne-qh2-uom
 instance_image: f8b79936-6616-4a22-b55d-0d0a1d27bceb
 instance_network: qh2-uom-internal
 instance_key_name: comp90024
-keypair_file: ~/comp90024.pem
+keypair_file: ~/.ssh/comp90024Key
 
 # Volume
 volumes:
@@ -18,26 +18,26 @@ volumes:
 
 # Security group
 security_groups:
-  - name: instance-1-security
-    description: "instance 1 security group"
+  - name: security-group-1
+    description: "SSH security group"
     protocol: tcp
     port_range_min: 22
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
-  - name: instance-2-security
-    description: "instance 2 security group"
+  - name: security-group-2
+    description: "HTTP security group"
     protocol: tcp
     port_range_min: 80
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
-  - name: instance-3-security
-    description: "instance 3 security group"
+  - name: security-group-3
+    description: "Alternate HTTP security group"
     protocol: tcp
     port_range_min: 8080
     port_range_max: 8080
     remote_ip_prefix: 0.0.0.0/0
-  - name: instance-4-security
-    description: "instance 4 security group"
+  - name: security-group-4
+    description: "HTTPS security group"
     protocol: tcp
     port_range_min: 443
     port_range_max: 443

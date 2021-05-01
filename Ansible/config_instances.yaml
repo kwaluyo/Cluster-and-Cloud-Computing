@@ -1,3 +1,10 @@
+# Configure group key in localhost
+- hosts: localhost
+  gather_facts: true
+
+  roles:
+    - role: config-groupkey
+
 # Configure instances with common requirements.
 - hosts: all
   vars_files:
@@ -8,7 +15,7 @@
   become_method: sudo
 
   roles:
-    - add-proxy
-    - install-dependencies
-    - install-docker
-    - mount-volumes
+    - config-proxy
+    - config-common
+    - config-volumes
+    - config-docker
