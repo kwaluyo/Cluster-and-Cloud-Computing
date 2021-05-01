@@ -26,7 +26,7 @@ def search_city(api, location, city, since_id):
 
     # Scrape tweets from January 2020 or the past 7 days
     try:
-        for i in range(50):
+        for i in range(250):
             # Returns tweets by users located within a given radius of the given latitude/longitude. 
             # The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile.
             # There are limits to the number of Tweets which can be accessed through the API. 
