@@ -1,34 +1,60 @@
-- name: create proxy directory for docker
-  tags: 'docker_proxy'
-  become: yes
-  file:
-    path: "/etc/systemd/system/docker.service.d/"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    recurse: yes
-    state: directory
+# install dockers on the servers
 
-- name: create proxy file for docker
-  file:
-    path: "/etc/systemd/system/docker.service.d/http-proxy.conf"
-    state: touch
-
-- name: Add proxy for docker
+- name: uninstall old versions of docker
   become: yes
-  blockinfile:
-    path: /etc/systemd/system/docker.service.d/http-proxy.conf
-    block: |
-      [Service]
-      Environment="HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000/" "HTTPS_PROXY=http://wwwproxy.unimelb.edu.au:8000/" "http_proxy=http://wwwproxy.unimelb.edu.au:8000/" "https_proxy=http://wwwproxy.unimelb.edu.au:8000/" "no_proxy=localhost, 127.0.0.1, localaddress, 172.16.0.0/12, /melbourne.rc.nectar.org.au, .storage.unimelb.edu.au, .cloud.unimelb.edu.au"
+  apt:
+    name: ['docker', 'docker-engine', 'docker.io']
+    state: absent
 
-- name: flush docker proxy files
+- name: install dependencies
   become: yes
-  shell: systemctl daemon-reload
+  apt:
+    name: ['apt-transport-https', 'ca-certificates', 'curl', 'python-setuptools', 'python-pip', 'software-properties-common']
+    state: latest
+    install_recommends: no
+    update_cache: yes
 
-- name: restart docker
+- name: add docker apt repository key
   become: yes
-  shell: systemctl restart docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
 
-- name: add user to docker group 
+- name: add docker apt repository and update apt cache
   become: yes
-  shell: gpasswd -a {{ansible_user}} docker
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable"
+    mode: '644'
+    update_cache: yes
+    state: present
+
+- name: install docker
+  become: yes
+  apt:
+    name: ['docker-ce']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: install docker-compose
+  become: yes
+  pip:
+    name: ['docker-compose']
+    version: 1.22.0
+    state: present
+
+- name: adding docker users (for use without sudo)
+  user:
+    name: "ubuntu"
+    append: yes
+    groups: docker
+  become: true
+  with_items: "['ubuntu']"
+
+- name: pull the image of couchdb 2.3.0
+  become: yes
+  command: docker pull couchdb:2.3.0
+
+- name: pull the image of apache
+  become: yes
+  command: docker pull httpd
