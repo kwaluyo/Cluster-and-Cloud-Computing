@@ -37,3 +37,9 @@
     groups: instances
   loop: '{{ os_instance.results }}'
   when: item.openstack is defined
+
+- name: create inventory file
+  become: yes
+  template:
+    src: nectar-hosts.j2
+    dest: "{{ hosts_inventory }}"

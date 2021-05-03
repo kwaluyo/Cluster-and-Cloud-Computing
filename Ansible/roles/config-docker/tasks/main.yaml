@@ -42,17 +42,112 @@
     name: ['docker-compose']
     state: latest
 
-- name: adding docker users (for use without sudo)
-  user:
-    name: "ubuntu"
-    append: yes
-    groups: docker
-  become: true
-  with_items: "['ubuntu']"
+- name: Ensure docker is installed
+  # https://docs.ansible.com/ansible/latest/modules/apt_module.html
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+    update_cache: true
 
-- name: pull the image of couchdb 2.3.0
+- name: Ensure Docker is started and enabled at boot
+  # https://docs.ansible.com/ansible/latest/modules/service_module.html
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Ensure handlers are notified now to avoid firewall conflicts
+  # https://docs.ansible.com/ansible/latest/modules/meta_module.html
+  meta: flush_handlers
+
+- name: "Ensure the user {{ ansible_user }} is part of the docker group"
+  # https://docs.ansible.com/ansible/latest/modules/user_module.html
+  user: 
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+#########################################################################################
+#               We install the docker python module as it is recommended                #
+#                   for the docker_swarm module that we will use later                  #
+# https://docs.ansible.com/ansible/latest/modules/docker_swarm_module.html#requirements #
+#########################################################################################
+
+- name: Ensure docker python module and jsondiff are installed
+  # https://docs.ansible.com/ansible/latest/modules/pip_module.html
+  pip:
+    name: 
+      - docker
+      # jsondiff and pyyaml are needed by the docker_stack module
+      - jsondiff
+      - pyyaml
+  register: pip_install_docker
+  ignore_errors: yes
+
+- name: Fetching pip
+  # https://docs.ansible.com/ansible/latest/modules/get_url_module.html
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: "/home/{{ ansible_user }}/get-pip.py"
+    mode: u=rwx,g=rwx,o=rx
+  when: pip_install_docker is failed
+
+- name: Installing pip
+  # https://docs.ansible.com/ansible/latest/modules/command_module.html
+  command: "python /home/{{ ansible_user }}/get-pip.py"
+  when: pip_install_docker is failed
+
+- name: Installing docker python module and jsondiff
+  # https://docs.ansible.com/ansible/latest/modules/pip_module.html
+  pip:
+    name: 
+      - docker
+      # jsondiff and pyyaml are needed by the docker_stack module
+      - jsondiff
+      - pyyaml
+  when: pip_install_docker is failed
+
+- name: create proxy directory for docker
+  tags: 'docker_proxy'
   become: yes
-  command: docker pull couchdb:2.3.0
+  file:
+    path: "/etc/systemd/system/docker.service.d/"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes
+    state: directory
+
+- name: create proxy file for docker
+  file:
+    path: "/etc/systemd/system/docker.service.d/http-proxy.conf"
+    state: touch
+
+- name: Add proxy for docker
+  become: yes
+  blockinfile:
+    path: /etc/systemd/system/docker.service.d/http-proxy.conf
+    block: |
+      [Service]
+      Environment="HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000/" "HTTPS_PROXY=http://wwwproxy.unimelb.edu.au:8000/" "http_proxy=http://wwwproxy.unimelb.edu.au:8000/" "https_proxy=http://wwwproxy.unimelb.edu.au:8000/" "no_proxy=localhost, 127.0.0.1, localaddress, 172.16.0.0/12, /melbourne.rc.nectar.org.au, .storage.unimelb.edu.au, .cloud.unimelb.edu.au"
+
+- name: flush docker proxy files
+  become: yes
+  shell: systemctl daemon-reload
+
+- name: restart docker
+  become: yes
+  shell: systemctl restart docker
+
+- name: add user to docker group 
+  become: yes
+  shell: gpasswd -a {{ansible_user}} docker
+
+- name: pull the image of couchdb
+  become: yes
+  command: docker pull couchdb
 
 - name: pull the image of apache
   become: yes

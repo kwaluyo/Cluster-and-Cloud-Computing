@@ -19,3 +19,26 @@
     - config-common
     - config-volumes
     - config-docker
+
+# Configure docker swarm
+- hosts: masternode
+  vars_files:
+    - host_vars/config.yaml
+  gather_facts: true
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  
+  roles:
+    - config-swarm
+
+- hosts: workers
+  vars_files:
+    - host_vars/config.yaml
+  gather_facts: true
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  
+  roles:
+    - config-worker-nodes
