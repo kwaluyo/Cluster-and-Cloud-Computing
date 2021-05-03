@@ -21,11 +21,11 @@ def search_city(api, location, city, since_id):
     if not os.path.isdir(city+"/"):
         os.makedirs(city)
     
-    path = city + "/" + str(datetime.date.today())+".jsonl"
-    save_file = open(path, 'a', encoding="utf8")
-
     # Scrape tweets from January 2020 or the past 7 days
     while True:
+        path = city + "/" + str(datetime.date.today())+".jsonl"
+        save_file = open(path, 'a', encoding="utf8")
+
         try:
             for i in range(250):
                 # Returns tweets by users located within a given radius of the given latitude/longitude. 
