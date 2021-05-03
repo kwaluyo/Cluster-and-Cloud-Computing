@@ -1,0 +1,7 @@
+{"cities" : [
+    {"ID": 1, "name": "Melbourne", "coordinate": {"lat": -37.81411, "lng":144.96328}},
+    {"ID": 2, "name": "Sydney", "coordinate": {"lat": -33.868820, "lng":151.209290}},
+    {"ID": 3, "name": "Adelaide", "coordinate": {"lat": -34.928497, "lng":138.600739}},
+    {"ID": 4, "name": "Brisbane", "coordinate": {"lat": -27.469770, "lng":153.025131}}
+]
+}
