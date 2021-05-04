@@ -21,6 +21,7 @@ class tweet_processor():
                 if city in self.tweet_obj['user']['location'].upper():
                     location = city
 
+            result['id'] = self.tweet_obj['id_str']
             result['text'] = text
             result['location'] = location
             result['sentiment'] = sentiment
