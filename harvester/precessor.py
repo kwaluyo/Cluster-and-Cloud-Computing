@@ -25,7 +25,7 @@ class tweet_processor():
             result['text'] = text
             result['location'] = location
             result['sentiment'] = sentiment
-            result['sentiment_summary'] = 'positive' if sentiment['compound'] > 0 else 'neagtive'
+            result['sentiment_summary'] = 'positive' if sentiment['compound'] > 0 else 'negative'
 
             return result
 
