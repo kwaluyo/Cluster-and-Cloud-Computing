@@ -4,6 +4,7 @@
 from __future__ import absolute_import, print_function
 
 import json
+import threading
 import logging
 import re
 import time
@@ -73,7 +74,7 @@ class DBStreamListener(StreamListener):
 
             result = {
                 'id': datajson['id'],
-                'time':tweet_data['created_at'],
+                'time':datajson['created_at'],
                 'text': text,
                 # change location based on bounding box
                 'location': self.city,
