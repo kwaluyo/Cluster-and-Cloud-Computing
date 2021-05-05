@@ -24,8 +24,8 @@ def search_city(api, location, city, since_id):
         os.makedirs(city)
     
     # Scrape tweets from January 2020 or the past 7 days
-    path = city + "/" + str(datetime.date.today())+".jsonl"
-    save_file = open(path, 'a', encoding="utf8")
+    # path = city + "/" + str(datetime.date.today())+".jsonl"
+    # save_file = open(path, 'a', encoding="utf8")
 
     try:
         while True:

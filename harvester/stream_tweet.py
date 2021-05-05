@@ -28,9 +28,9 @@ class DBStreamListener(StreamListener):
 
     def on_status(self, tweet):
         logger.info(f"Stream: Processing tweet id {tweet.id}")
-        save_file = open('twitter.jsonl', 'a', encoding="utf8")
-        save_file.write("[" + json.dumps(tweet._json, separators=(',', ':')) + "]\n")
-        save_file.close()
+        # save_file = open('twitter.jsonl', 'a', encoding="utf8")
+        # save_file.write("[" + json.dumps(tweet._json, separators=(',', ':')) + "]\n")
+        # save_file.close()
 
     def on_error(self, status):
         logger.error(status)
@@ -69,6 +69,7 @@ class DBStreamListener(StreamListener):
             result = {
                 'id': datajson['id'],
                 'text': text,
+                # change location based on bounding box
                 'location': datajson['place']['full_name'],
                 'sentiment': sentiment,
                 'sentiment_summary': summary
