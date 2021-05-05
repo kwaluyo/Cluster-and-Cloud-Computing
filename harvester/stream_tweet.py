@@ -68,6 +68,7 @@ class DBStreamListener(StreamListener):
 
             result = {
                 'id': datajson['id'],
+                'time':tweet_data['created_at'],
                 'text': text,
                 # change location based on bounding box
                 'location': datajson['place']['full_name'],

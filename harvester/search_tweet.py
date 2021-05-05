@@ -62,6 +62,7 @@ def search_city(api, location, city, since_id):
                 
                 result = {
                     'id': tweet_data['id'],
+                    'time':tweet_data['created_at'],
                     'text': text,
                     'location': city,                    
                     'sentiment': sentiment,
