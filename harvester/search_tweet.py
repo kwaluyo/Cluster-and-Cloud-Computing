@@ -7,7 +7,9 @@ import os
 import time, datetime
 
 from utils import load_config
-
+import connect_db
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import re
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
@@ -32,19 +34,61 @@ def search_city(api, location, city, since_id):
             # There are limits to the number of Tweets which can be accessed through the API. 
             # If the limit of Tweets has occurred since the since_id, the since_id will be forced to the oldest ID available.
             for tweet in api.search(lang=["en"], geocode=location, count=100, since_id=since_id):
-
                 # Look for tweet
                 logger.info(f"Search: Processing tweet id {tweet.id}")
-                save_file.write("["+json.dumps(tweet._json, separators=(',', ':'))+"]\n")
+                # save_file.write("["+json.dumps(tweet._json, separators=(',', ':'))+"]\n")
+                tweet_data = tweet._json
+                # if tweet_data['']
+                # text = ""
+                # try:
+                #     if tweet_data['truncated'] == True:
+                #         text = tweet_data["full_text"]
+                #     else:
+                #         text = tweet_data['text']
+                # except AttributeError:
+                #     text = tweet_data['text']
+                
+                text = re.sub(r"(@[\w]+)|(https?://\S+)|(#+)", '', tweet_data['text'], flags=re.MULTILINE)
+                if text == "":
+                    continue
+                sentiment = SentimentIntensityAnalyzer().polarity_scores(text)
+                summary = 'negative'
+                if sentiment['compound'] > 0: 
+                    summary = 'positive'
+                elif sentiment['compound']<0:
+                    summary = 'negative'
+                else:
+                    summary = 'neutral'
+                
+                result = {
+                    'id': tweet_data['id'],
+                    'text': text,
+                    'location': city,                    
+                    'sentiment': sentiment,
+                    'sentiment_summary': summary
+                }
+                # if tweet_data['place']!=None:
+                #     result = {
+                #         'id': tweet_data['id'],
+                #         'text': text,
+                #         'location': tweet_data['place']['full_name'],
+                #         'sentiment': sentiment,
+                #         'sentiment_summary': summary
+                #     }  
+                connect_db.dbres.save(result)
+                logger.info(result)
+
+
+
 
     except Exception as e:
         logger.error("Tweet search error:", e)
 
 
 def main(api, config):
-    
+
     cities = ["SYDNEY", "MELBOURNE", "BRISBANE", "ADELAIDE"]
-    
+
     # read in search criteria
     location = config['LOCATION']
     since_id = config['SINCE_ID'] # JAN2020
