@@ -17,14 +17,19 @@ import connect_db
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-cities = ["SYDNEY", "MELBOURNE", "BRISBANE", "ADELAIDE"]
-
 
 class DBStreamListener(StreamListener):
     """ 
     A listener handles tweets that are received from the stream.
     This is a basic listener that dumps received tweets to json file.
     """
+
+    def __init__(self, city):
+        
+        # Location of live tweets
+        self.city = city
+
+        super().__init__()
 
     def on_status(self, tweet):
         logger.info(f"Stream: Processing tweet id {tweet.id}")
@@ -71,7 +76,7 @@ class DBStreamListener(StreamListener):
                 'time':tweet_data['created_at'],
                 'text': text,
                 # change location based on bounding box
-                'location': datajson['place']['full_name'],
+                'location': self.city,
                 'sentiment': sentiment,
                 'sentiment_summary': summary
             }
@@ -79,29 +84,29 @@ class DBStreamListener(StreamListener):
             connect_db.dbres.save(result)
             logger.info(result)
         except Exception as e:
-            print(e)
+            logger.error("Error saving to CouchDB", e)
 
 
 def start_listener(api, stream_listener, keywords, location):
     try:
         stream = Stream(api.auth, stream_listener, tweet_mode='extended')
-        stream.filter(languages=["en"], track=keywords, is_async=True, locations=location['ALL'])
+        stream.filter(languages=["en"], track=keywords, is_async=True, locations=location)
         logger.info("Stream listener started.")
     except Exception as e:
         logger.error("Start stream Error:", e)
 
 
 def main(api, config):
+
+    cities = ["SYDNEY", "MELBOURNE", "BRISBANE", "ADELAIDE"]
+
     # read in search criteria
     keywords = config['KEYWORDS']
-    location = config['LOCATION']
+    location = config['LOCATION']['BBOX']
 
-    # create instance of stream listener
-    stream_listener = DBStreamListener()
-    # start stream listener
-    try:
-        stream = Stream(api.auth, stream_listener, tweet_mode='extended')
-        stream.filter(languages=["en"], track=keywords, is_async=True, locations=location['ALL'])
-        logger.info("Stream listener started.")
-    except Exception as e:
-        logger.error("Start stream Error:", e)
+    for city in cities:
+        # create instance of stream listener
+        stream_listener = DBStreamListener(city)
+
+        # start stream listener
+        threading.Thread(target=start_listener, args=(api, stream_listener, keywords, location[city],)).start()

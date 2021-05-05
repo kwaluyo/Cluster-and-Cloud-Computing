@@ -94,6 +94,6 @@ def main(api, config):
     location = config['LOCATION']
     since_id = config['SINCE_ID'] # JAN2020
 
-    # start stream listener
+    # start searching tweets
     for city in cities:
         threading.Thread(target=search_city, args=(api, location[city], city, since_id,)).start()
