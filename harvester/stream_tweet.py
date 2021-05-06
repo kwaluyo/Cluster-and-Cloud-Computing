@@ -46,7 +46,7 @@ class DBStreamListener(StreamListener):
                 # uncomment for debug
                 # print(res)
             
-            logger.info(f"Stream: Tweet saved to DB: {res}")
+                logger.info(f"Stream: Tweet saved to DB: {res}")
 
         except Exception as e:
             logger.error(f"Stream: Error saving to CouchDB: {e}")

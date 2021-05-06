@@ -50,7 +50,7 @@ class SearchTweet():
                         # uncomment for debug
                         # print(res)
                     
-                    logger.info(f"Search: Tweet saved to DB: {res}")
+                        logger.info(f"Search: Tweet saved to DB: {res}")
 
         except Exception as e:
             logger.error(f"Search: Error searching tweets: {e}")

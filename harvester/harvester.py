@@ -14,6 +14,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 def create_api(cfg):
+    """
+    Establish connection to Twitter API and verify twitter credentials.
+    """
     account = cfg['TWITTER']
 
     auth = OAuthHandler(consumer_key=account["CONSUMER_KEY"], consumer_secret=account["CONSUMER_SECRET"])
@@ -32,6 +35,9 @@ def create_api(cfg):
 
 
 def main():
+    """
+    Spawn threads to stream and search Twitter.
+    """
 
     configs = load_config()
     target = [stream_tweet.main, search_tweet.main]
