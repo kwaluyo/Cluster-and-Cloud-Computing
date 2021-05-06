@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 
-from subprocess import Popen
-from datetime import datetime
 from tweepy import API, OAuthHandler
 from multiprocessing import Process
 import logging
 import time
-import os
 
 import stream_tweet
 import search_tweet
