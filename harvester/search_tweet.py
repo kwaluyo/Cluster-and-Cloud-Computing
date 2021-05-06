@@ -46,7 +46,7 @@ class SearchTweet():
 
                     res = self.tweetProcessor.process(tweet_data, self.city)
                     if not res is None:
-                        connect_db.dbres.save(res)
+                        connect_db.save_to_db(tweet=res)
                         # uncomment for debug
                         # print(res)
                     
