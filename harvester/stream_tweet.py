@@ -6,14 +6,12 @@ from __future__ import absolute_import, print_function
 import json
 import threading
 import logging
-import re
 import time
 
-# nltk.download('vader_lexicon')
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from tweepy import Stream, StreamListener
 
 import connect_db
+from processor import TweetProcessor
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -22,23 +20,41 @@ logger = logging.getLogger()
 class DBStreamListener(StreamListener):
     """ 
     A listener handles tweets that are received from the stream.
-    This is a basic listener that dumps received tweets to json file.
+    This is a basic listener that dumps received live tweets to DB.
     """
 
     def __init__(self, city):
         
         # Location of live tweets
         self.city = city
+        self.tweetProcessor = TweetProcessor()
 
         super().__init__()
 
-    def on_status(self, tweet):
-        logger.info(f"Stream: Processing tweet id {tweet.id}")
-        # save_file = open('twitter.jsonl', 'a', encoding="utf8")
-        # save_file.write("[" + json.dumps(tweet._json, separators=(',', ':')) + "]\n")
-        # save_file.close()
+    def on_data(self, data):
+        """
+        Save streamed tweets to DB.
+        """
+        try:
+            # Decode the JSON from Twitter
+            tweet = json.loads(data)
+            logger.info(f"Stream: Processing tweet id {tweet['id']}")
+            
+            res = self.tweetProcessor.process(tweet, self.city)
+            if not res is None:
+                connect_db.dbres.save(res)
+                # uncomment for debug
+                # print(res)
+            
+            logger.info(f"Stream: Tweet saved to DB: {res}")
+
+        except Exception as e:
+            logger.error(f"Stream: Error saving to CouchDB: {e}")
 
     def on_error(self, status):
+        """
+        Handle wait times for different connection errors.
+        """
         logger.error(status)
 
         if status == 420:
@@ -55,40 +71,11 @@ class DBStreamListener(StreamListener):
             logger.error("Unexpected error. Retry in 10 seconds.")
             time.sleep(10)
 
-    def on_data(self, data):
-        try:
-
-            # Decode the JSON from Twitter
-            datajson = json.loads(data)
-            result = []
-
-            text = re.sub(r"(@[\w]+)|(https?://\S+)|(#+)", '', datajson['text'], flags=re.MULTILINE)
-            sentiment = SentimentIntensityAnalyzer().polarity_scores(text)
-            summary = 'negative'
-            if sentiment['compound'] > 0: 
-                summary = 'positive'
-            elif sentiment['compound']<0:
-                summary = 'negative'
-            else:
-                summary = 'neutral'
-
-            result = {
-                'id': datajson['id'],
-                'time':datajson['created_at'],
-                'text': text,
-                # change location based on bounding box
-                'location': self.city,
-                'sentiment': sentiment,
-                'sentiment_summary': summary
-            }
-
-            connect_db.dbres.save(result)
-            logger.info(result)
-        except Exception as e:
-            logger.error("Error saving to CouchDB", e)
-
 
 def start_listener(api, stream_listener, keywords, location):
+    """
+    Start API to listen to filtered live streams.
+    """
     try:
         stream = Stream(api.auth, stream_listener, tweet_mode='extended')
         stream.filter(languages=["en"], track=keywords, is_async=True, locations=location)
@@ -98,6 +85,9 @@ def start_listener(api, stream_listener, keywords, location):
 
 
 def main(api, config):
+    """
+    Spawn threads that will stream for live tweets from Sydney, Melbourne, Brisbane, and Adelaide.
+    """
 
     cities = ["SYDNEY", "MELBOURNE", "BRISBANE", "ADELAIDE"]
 
@@ -109,5 +99,5 @@ def main(api, config):
         # create instance of stream listener
         stream_listener = DBStreamListener(city)
 
-        # start stream listener
+        # start streaming tweets from each city
         threading.Thread(target=start_listener, args=(api, stream_listener, keywords, location[city],)).start()
