@@ -16,6 +16,6 @@
 - name: Start docker
   become:
     yes
-  shell: docker-compose up  --build -d
+  shell: docker-compose up --build -d
   args:
     chdir: /home/ubuntu/COMP90024/ccc_assg2/harvester

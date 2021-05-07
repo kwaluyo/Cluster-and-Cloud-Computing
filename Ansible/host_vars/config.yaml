@@ -13,10 +13,6 @@ couchdb_VERSION: '3.0.0'
 couchdb_cookie: 'a192aeb9904e6590849337933b000c99'
 couchdb_uuid: 'a192aeb9904e6590849337933b001159'
 cluster_name: '_cluster_setup'
-couchdb_container_name: 'couchdb_'
+couchdb_container_name: 'comp90024'
 couchdb_port: 5984
-couchdb_db_name: "live-tweets"
-
-# Volume mount configuration
-volume_device_comm: /dev/vdb
-volume_mount_point_comm: /data
+couchdb_db_name: "tweets"

@@ -1,0 +1,18 @@
+---
+- name: Copy GitHub private key to server
+  copy:
+    src: "config/github.pem"
+    dest: /home/ubuntu/.ssh/github
+    owner: ubuntu
+    group: ubuntu
+    mode: 0600
+
+- name: git pull Ansbile branch
+  shell: git pull origin Ansible
+  args:
+    chdir: '{{ git_repo }}'
+
+- name: Remove github key
+  file:
+    path: /home/ubuntu/.ssh/github
+    state: absent
