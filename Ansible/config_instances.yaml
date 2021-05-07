@@ -5,21 +5,19 @@
   roles:
     - role: config-groupkey
 
-# Configure instances with common requirements.
+# Configure instances with common requireements.
 - hosts: all
   vars_files:
     - host_vars/config.yaml
   gather_facts: true
-  remote_user: ubuntu
-  become: yes
-  become_method: sudo
 
   roles:
     - config-proxy
     - config-common
-    - config-volumes
+    - config-git-repository
     - config-docker
-
+    - config-volumes
+    
 # Configure docker swarm
 - hosts: masternode
   vars_files:

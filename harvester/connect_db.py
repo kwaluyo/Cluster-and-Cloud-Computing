@@ -14,11 +14,17 @@ couchserver.resource.credentials = (username, password)
 
 
 def connect_to_couchdb_server(username, password, host, port):
+    """
+    Establish connection ot couchdb server.
+    """
     couchdb_server = couchdb.Server('http://' + username + ':' + password + '@' + host + ':' + port)
     return couchdb_server
 
 
 def connect_to_db(server, db_name):
+    """
+    Connect to or create a database with db_name.
+    """
     try:
         return server[db_name]
     except:
@@ -31,6 +37,9 @@ database = connect_to_db(server, db_name)
 
 
 def save_to_db(tweet, db=database):
+    """
+    Save tweets to db if tweet ID does not exist in database (to avoid duplicates).
+    """
     # check for duplication first
     if str(tweet["id"]) not in db:
         # set tweet id as the document id for duplication removal

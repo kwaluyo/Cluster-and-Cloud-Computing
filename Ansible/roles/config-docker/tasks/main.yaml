@@ -44,6 +44,7 @@
 
 - name: Ensure docker is installed
   # https://docs.ansible.com/ansible/latest/modules/apt_module.html
+  become: yes
   apt:
     name:
       - docker-ce
@@ -78,6 +79,7 @@
 
 - name: Ensure docker python module and jsondiff are installed
   # https://docs.ansible.com/ansible/latest/modules/pip_module.html
+  become: yes
   pip:
     name: 
       - docker
@@ -102,6 +104,7 @@
 
 - name: Installing docker python module and jsondiff
   # https://docs.ansible.com/ansible/latest/modules/pip_module.html
+  become: yes
   pip:
     name: 
       - docker
