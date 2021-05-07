@@ -12,6 +12,10 @@ config*.json
 # Twitter files
 twitter.*
 
+# Keys
+*.pem
+*.secret
+
 # Distribution / packaging
 .Python
 build/

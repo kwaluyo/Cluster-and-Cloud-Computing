@@ -1,0 +1,5 @@
+- name: add group key
+  copy:
+    src: "config/comp90024.pem"
+    dest: ~/.ssh/comp90024Key
+    mode: 0600

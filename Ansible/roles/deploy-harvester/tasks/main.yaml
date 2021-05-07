@@ -1,0 +1,21 @@
+---
+- name: Create couchdb config file
+  become:
+    yes
+  template:
+    src: connect_db.j2
+    dest: '{{remote_working_directory}}/ccc_assg2/harvester/connect_db.py'
+
+- name: Shut down previous docker service
+  become:
+    yes
+  shell: docker-compose down --rmi local
+  args:
+    chdir: /home/ubuntu/COMP90024/ccc_assg2/harvester
+
+- name: Start docker
+  become:
+    yes
+  shell: docker-compose up  --build -d
+  args:
+    chdir: /home/ubuntu/COMP90024/ccc_assg2/harvester
