@@ -2,6 +2,11 @@
   background-color: #05263B
 }
 
+.barchart {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
 .map-container {
   position: absolute;
   top: 0;

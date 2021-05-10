@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import * as Cities from '../data/cities.json'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
-
+import { Link } from 'react-router-dom';
 
 
 function Scenario3() {
@@ -96,6 +96,10 @@ function Scenario3() {
             <div>
               <h2>{selectedCity.name}</h2>
               <p>This is {selectedCity.name} </p>
+              <Link to="/chart3" > See Comparison </Link> 
+              {/* <a href="https://react.school" target="_blank">
+                Link Button
+              </a> */}
             </div>
           </Popup>
         ) : null}

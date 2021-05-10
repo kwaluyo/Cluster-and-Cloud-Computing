@@ -1,63 +1,115 @@
-import React, { useRef, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
+import React, { useState, useEffect } from "react";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import * as Cities from '../data/cities.json'
-import ReactMapGl, {Marker} from 'react-map-gl'
-mapboxgl.workerClass = MapboxWorker;
-mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbHV5byIsImEiOiJja28zejVrZjMwMmVoMnFxd3kwaDlzM2RmIn0.CpCst2zLMvWrjhmTwaWCCg';
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
+import { Link } from 'react-router-dom';
 
-const Map = () => {
-  const mapContainer = useRef();
-  const [lng, setLng] = useState(135.1745);
-  const [lat, setLat] = useState(-25.9958);
-  const [zoom, setZoom] = useState(4);
+
+function Scenario2() {
+  const [viewport, setViewport] = useState({
+    latitude: -25.9958,
+    longitude: 135.1745,
+    width: '100vw',
+    height: '100vh',
+    zoom: 3.5
+  });
+  const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
-      zoom: zoom
-    });
+    const listener = e => {
+      if (e.key === "Escape") {
+        setSelectedCity(null);
+      }
+    };
+    window.addEventListener("keydown", listener);
 
-    map.on('move', () => {
-      setLng(map.getCenter().lng.toFixed(4));
-      setLat(map.getCenter().lat.toFixed(4));
-      setZoom(map.getZoom().toFixed(2));
-    });
-
-    return () => map.remove();
-    // eslint-disable-next-line
+    return () => {
+      window.removeEventListener("keydown", listener);
+    };
   }, []);
+
+  useEffect( () => {
+    fetchItems();
+    }, []);
+
+    const [items, setItems] = useState([]);
+
+    const fetchItems = async () => {
+        const data = await fetch('/scenario2');
+        const items = await data.json();
+        setItems(items);
+    };
 
   return (
     <div>
-      <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
-      <div className="map-container" ref={mapContainer} >
-          {/* {Cities.cities.map(city => (
-              <Marker
-                  key = {city.ID}
-                  latitude = {city.lat}
-                  longitude = {city.lng}
-                >
-                    <div>
-                     AAAAAAAAAAA   
+      {/* <div>
+          {
+            items.map(item => (
+                <div class="container-fluid p-3 w-50">
+                    <div class="card-deck">
+                        <div class="card">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">{item.name}</h6>
+                                <p class="card-text">{item.msg}</p>
+                                <p class="card-text"><i>{item.username}</i></p>
+                            </div>
+                        </div>
                     </div>
-              </Marker>
-          ))} */}
-      </div>
+                </div>
+            ))
+            }
+      </div> */}
+      <ReactMapGL
+        {...viewport}
+        mapboxApiAccessToken='pk.eyJ1Ijoia3dhbHV5byIsImEiOiJja28zejVrZjMwMmVoMnFxd3kwaDlzM2RmIn0.CpCst2zLMvWrjhmTwaWCCg'
+        mapStyle="mapbox://styles/kwaluyo/cko474hnl0w3v18qqg8o0mwhe"
+        onViewportChange={viewport => {
+          setViewport(viewport);
+        }}
+      >
+        {Cities.cities.map(city => (
+          <Marker
+            key = {city.ID}
+            latitude = {city.coordinate.lat}
+            longitude = {city.coordinate.lng}
+          >
+            <button
+              className="marker-btn"
+              onClick={e => {
+                e.preventDefault();
+                setSelectedCity(city);
+              }}
+            >
+              <img src="/mapbox-marker-icon-20px-gray.png" alt="City Icon" />
+            </button>
+          </Marker>
+        ))}
+
+        {selectedCity ? (
+          <Popup
+            latitude={selectedCity.coordinate.lat}
+            longitude={selectedCity.coordinate.lng}
+            onClose={() => {
+              setSelectedCity(null);
+            }}
+          >
+            <div>
+              <h2>{selectedCity.name}</h2>
+              <p>This is {selectedCity.name} </p>
+              <Link to="/chart2" > See Comparison </Link> 
+              {/* <a href="https://react.school" target="_blank">
+                Link Button
+              </a> */}
+            </div>
+          </Popup>
+        ) : null}
+      </ReactMapGL>
     </div>
   );
-};
-
-ReactDOM.render(<Map />, document.getElementById('root'));
+}
 
 
-// function Scenario2() {
+// function Scenario3() {
 //     useEffect( () => {
 //         fetchItems();
 //     }, []);
@@ -65,7 +117,7 @@ ReactDOM.render(<Map />, document.getElementById('root'));
 //     const [items, setItems] = useState([]);
 
 //     const fetchItems = async () => {
-//         const data = await fetch('/scenario2');
+//         const data = await fetch('/scenario3');
 //         const items = await data.json();
 //         setItems(items);
 //     };
@@ -91,4 +143,4 @@ ReactDOM.render(<Map />, document.getElementById('root'));
 //     );
 // }
 
-export default Map;
+export default Scenario2;
