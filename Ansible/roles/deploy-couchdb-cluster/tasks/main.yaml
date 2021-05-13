@@ -1,3 +1,4 @@
+# Setup CouchDB cluster
 - name: setup couchdb cluster | step 1
   become: yes
   uri:
@@ -34,6 +35,7 @@
       Content-Type: "application/json"
   loop: "{{ groups['workers'] }}"
 
+  # This empty request is to avoid an error message when finishing the cluster setup
 - name: setup couchdb cluster | step 2.5
   become: yes
   uri:
@@ -45,7 +47,7 @@
     force_basic_auth: yes
     return_content: yes
 
-- name: steup couchdb cluster | step 3 -- finish
+- name: setup couchdb cluster | step 3 -- finish
   become: yes
   uri:
     url: http://{{ groups['masternode'][0] }}:{{ couchdb_port }}/{{ cluster_name }}
