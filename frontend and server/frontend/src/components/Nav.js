@@ -13,6 +13,7 @@ function Nav() {
                     <Link to='/scenario1' className="nav-item nav-link">Scenario 1</Link>
                     <Link to='/scenario2' className="nav-item nav-link">Scenario 2</Link>
                     <Link to='/scenario3' className="nav-item nav-link">Scenario 3</Link>
+                    <Link to='/scenario4' className="nav-item nav-link">Scenario 4</Link>
                 </div>
             </div>
         </nav>
