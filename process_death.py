@@ -1,5 +1,16 @@
 import json
 from collections import defaultdict
+import couchdb
+
+couchserver = couchdb.Server("http://127.0.0.1:5984")
+# Set credentials if necessary
+couchserver.resource.credentials = ("admin", "admin")
+
+dbname = "death"
+if dbname in couchserver:
+    db = couchserver[dbname]
+else:
+    db = couchserver.create(dbname)
 
 cities = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide']
 
@@ -20,3 +31,18 @@ for year in ['2014', '2015', '2016', '2017', '2018', '2019']:
 with open('./processed_data/death.json', 'w') as file:
     json.dump(result, file)
     file.close()
+
+with open('./processed_data/death.json', 'r', encoding='utf-8') as file:
+    for line in file:
+        parsed_input = json.loads(line)
+        for city in cities:
+            result = {
+                'city': city
+            }
+
+            for row in parsed_input[city]:
+                result.update({'year':row})
+                result.update(parsed_input[city][row])
+                # print(parsed_input[city][row])
+                print(result)
+                # exit;
