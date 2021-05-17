@@ -2,7 +2,6 @@ import threading
 import logging
 import json
 
-from utils import load_config
 from processor import TweetProcessor
 import connect_db
 
