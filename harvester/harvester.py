@@ -42,10 +42,11 @@ def main():
     configs = load_config()
     target = [stream_tweet.main, search_tweet.main]
     while True:
-        api = create_api(configs[0])
         jobs = []
         try:
             for i in range(len(configs)):
+                api = create_api(configs[i])
+
                 # Create threads to stream and search tweets
                 stream = Process(target=stream_tweet.main, args=(api, configs[i]), daemon=True)
                 search = Process(target=search_tweet.main, args=(api, configs[i]), daemon=True)
