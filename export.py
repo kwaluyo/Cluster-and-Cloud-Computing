@@ -24,12 +24,11 @@ with open('./processed_data/satisfaction.json', 'r', encoding='utf-8') as file:
     for line in file:
         parsed_input = json.loads(line)
         for city in cities:
-            for row in parsed_input[city]:
-                result = {
-                    'city': city
-                }
-                result.update(parsed_input[city])
-                connect.dbSatisfaction.save(result)
+            result = {
+                'city': city,
+            }
+            result.update(parsed_input[city])
+            connect.dbSatisfaction.save(result)
 
 # import support to db
 with open('./processed_data/support.json', 'r', encoding='utf-8') as file:
@@ -44,7 +43,7 @@ with open('./processed_data/support.json', 'r', encoding='utf-8') as file:
                 result.update(parsed_input[city][row])
                 connect.dbSupport.save(result)
 
-# import unemployment to db
+# # import unemployment to db
 with open('./processed_data/unemployment.json', 'r', encoding='utf-8') as file:
     for line in file:
         parsed_input = json.loads(line)
