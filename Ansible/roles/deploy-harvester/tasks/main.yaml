@@ -1,0 +1,15 @@
+---
+- name: Create couchdb config file
+  become:
+    yes
+  template:
+    src: connect_db.j2
+    dest: '{{remote_working_directory}}/ccc_assg2/harvester/connect_db.py'
+
+- name: Deploy the harvester stack
+  # https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html
+  docker_stack:
+    state: present
+    name: "{{ STACK_NAME | default('harvester') }}"
+    compose:
+      - "/home/ubuntu/COMP90024/ccc_assg2/harvester/docker-compose.yml"

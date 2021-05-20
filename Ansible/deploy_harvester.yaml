@@ -1,0 +1,27 @@
+- hosts: database
+  vars_files:
+    - host_vars/config.yaml
+  gather_facts: true
+  roles:
+    - role: deploy-couchdb
+
+- hosts: masternode
+  vars_files:
+    - host_vars/config.yaml
+  gather_facts: true
+  roles:
+    - role: deploy-couchdb-cluster
+
+- hosts: all
+  vars_files:
+     - host_vars/config.yaml
+  gather_facts: true
+  roles:
+     - role: deploy-git-repository
+
+- hosts: harvester
+  gather_facts: true
+  vars_files:
+    - host_vars/config.yaml
+  roles:
+    - role: deploy-harvester

@@ -1,0 +1,72 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+instance_image: f8b79936-6616-4a22-b55d-0d0a1d27bceb
+instance_network: qh2-uom-internal
+instance_key_name: comp90024
+keypair_file: ~/.ssh/comp90024Key
+hosts_inventory: "./inventory/hosts_inventory.ini"
+
+# Volume
+volumes:
+  - vol_name: instance-1-volume
+    vol_size: 60
+  - vol_name: instance-2-volume
+    vol_size: 60
+  - vol_name: instance-3-volume
+    vol_size: 60
+  - vol_name: instance-4-volume
+    vol_size: 60
+
+# Security group
+security_groups:
+  - name: security-group-1
+    description: "SSH security group"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: security-group-2
+    description: "HTTP security group"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+  - name: security-group-3
+    description: "Alternate HTTP security group"
+    protocol: tcp
+    port_range_min: 8080
+    port_range_max: 8080
+    remote_ip_prefix: 0.0.0.0/0
+  - name: security-group-4
+    description: "HTTPS security group"
+    protocol: tcp
+    port_range_min: 443
+    port_range_max: 443
+    remote_ip_prefix: 0.0.0.0/0
+  - name: security-group-5
+    description: "couchDB security group"
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 9100
+    remote_ip_prefix: 0.0.0.0/0
+  - name: security-group-6
+    description: "swarm cluster security group"
+    protocol: tcp
+    port_range_min: 2377
+    port_range_max: 2377
+    remote_ip_prefix: 0.0.0.0/0
+
+# Instance
+instances:
+  - name: instance-1
+    volumes: [instance-1-volume]
+    instance_flavor: uom.mse.2c9g
+  - name: instance-2
+    volumes: [instance-2-volume]
+    instance_flavor: uom.mse.2c9g
+  - name: instance-3
+    volumes: [instance-3-volume]
+    instance_flavor: uom.mse.2c9g
+  - name: instance-4
+    volumes: [instance-4-volume]
+    instance_flavor: uom.mse.1c4g

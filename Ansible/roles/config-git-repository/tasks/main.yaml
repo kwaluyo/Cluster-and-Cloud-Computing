@@ -1,0 +1,38 @@
+---
+- name: copy GitHub private key to server
+  copy:
+    src: "config/github.pem"
+    dest: /home/ubuntu/.ssh/github
+    owner: ubuntu
+    group: ubuntu
+    mode: 0600
+
+- name: Create ~COMP90024 directory
+  become: yes
+  file:
+    path: '{{ remote_working_directory }}'
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0777
+
+- name: Delete github repo directory if it exists
+  become: yes
+  file:
+    path: '{{ git_repo }}'
+    state: absent
+
+- name: Clone github repository
+  shell: git clone git@github.com:r4dhiDj/ccc_assg2.git
+  args:
+    chdir: '{{ remote_working_directory }}'
+
+- name: Checkout to Ansible branch
+  shell: git checkout Ansible
+  args:
+    chdir: '{{ git_repo }}'
+
+- name: Remove GitHub key from server
+  file:
+    path: /home/ubuntu/.ssh/github
+    state: absent

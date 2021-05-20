@@ -1,0 +1,16 @@
+version: '3'
+services:
+    harvester:
+        image: jeanabanto/comp90024:latest
+        build: .
+        ports:
+            - 5000:80
+        volumes:
+            - .:/usr/src/app
+        deploy:
+            replicas: 2
+            update_config:
+                parallelism: 2
+                delay: 10s
+            restart_policy:
+                condition: on-failure
