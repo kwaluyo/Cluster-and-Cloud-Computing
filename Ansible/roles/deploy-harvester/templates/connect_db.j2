@@ -7,11 +7,6 @@ username = "{{ couchdb_user }}"
 password = "{{couchdb_pass}}"
 db_name = "{{couchdb_db_name}}"
 
-# can change to the unimelb and it will connect
-couchserver = couchdb.Server("http://" + username + ':' + password + '@' + host + ':' + port)
-# Set credentials if necessary
-couchserver.resource.credentials = (username, password)
-
 
 def connect_to_couchdb_server(username, password, host, port):
     couchdb_server = couchdb.Server('http://' + username + ':' + password + '@' + host + ':' + port)
