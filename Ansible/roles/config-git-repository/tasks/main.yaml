@@ -27,11 +27,6 @@
   args:
     chdir: '{{ remote_working_directory }}'
 
-- name: Checkout to Ansible branch
-  shell: git checkout Ansible
-  args:
-    chdir: '{{ git_repo }}'
-
 - name: Remove GitHub key from server
   file:
     path: /home/ubuntu/.ssh/github

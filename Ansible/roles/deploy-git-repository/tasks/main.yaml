@@ -7,8 +7,8 @@
     group: ubuntu
     mode: 0600
 
-- name: git pull Ansbile branch
-  shell: git pull origin Ansible
+- name: git pull repository
+  shell: git pull
   args:
     chdir: '{{ git_repo }}'
 
