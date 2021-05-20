@@ -12,7 +12,7 @@
   roles:
     - role: deploy-couchdb-cluster
 
-- hosts: harvester
+- hosts: all
   vars_files:
      - host_vars/config.yaml
   gather_facts: true

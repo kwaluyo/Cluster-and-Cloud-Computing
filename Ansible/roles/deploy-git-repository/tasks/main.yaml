@@ -16,3 +16,10 @@
   file:
     path: /home/ubuntu/.ssh/github
     state: absent
+
+- name: Create config file
+  become:
+    yes
+  template:
+    src: config.j2
+    dest: '{{remote_working_directory}}/ccc_assg2/harvester/config.json'
