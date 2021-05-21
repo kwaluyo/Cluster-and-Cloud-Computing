@@ -25,7 +25,6 @@ function Scenario1() {
   const getApiData = async (cityName) => {
     const response = await fetch('/api/income?city='+cityName);
     const jsonData = await response.json();
-    console.log(jsonData);
     setApiData(jsonData);
   };
   
