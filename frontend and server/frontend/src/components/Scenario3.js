@@ -19,10 +19,10 @@ function Scenario3() {
   const [apiData,setApiData] = useState(null)
 
   useEffect(() => {
-    getGitHubUserWithFetch();
+    getApiData();
   }, []);
 
-  const getGitHubUserWithFetch = async (cityName) => {
+  const getApiData = async (cityName) => {
     const response = await fetch('/api/support?city='+cityName);
     const jsonData = await response.json();
     console.log(jsonData);
@@ -100,7 +100,7 @@ function Scenario3() {
               onClick={e => {
                 setSelectedCity(city);
                 setCity(city.name);
-                getGitHubUserWithFetch(city.name);
+                getApiData(city.name);
                 e.preventDefault();
               }}
             
