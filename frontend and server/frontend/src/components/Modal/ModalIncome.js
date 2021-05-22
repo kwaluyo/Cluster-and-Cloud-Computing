@@ -20,41 +20,66 @@ export const Modal = ({ show, city, apidata,close }) => {
                     {
                         show ? 
                         apidata.map((data, key) => {
+                            console.log(data);
                             if (data.docs) {
                                 return (
-                                    <p>
+                                    <div className="content_block">
                                     {
                                         data.docs.map((detail, keyDetail) => {
+                                            
                                             return (
                                                 <p>
+                                                    
                                                 <div className="label">Year : {detail.year}</div>
-                                                <div className="label">Average : {detail.mean_income_yr}</div>
-                                                <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={Number((detail.mean_income_yr/100000)*100).toFixed(2)} /></div>
+                                                <div className="label">Average : {detail.mean}</div>
+                                                <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={Number((detail.mean/100000)*100).toFixed(2)} /></div>
                                                 </p>
+                                                
                                             );
                                         })
                                         // }
                                     }
-                                    </p>
-                                );
-                            }
-                            if (data.sentiment) {
-                                return (
-                                    <p>
                                     {
-                                        data.sentiment.map((detailSentiment, keyDetailSentiment) => {
-                                            return (
-                                                <p>
-                                                <PieChart data={detailSentiment}
-                                                />;
-                                                </p>
+                                        data.docs.map((detail, keyDetail) => {
+                                            if (detail.years.sentiment)
+                                                return (
+                                                    <p>
+                                                        <PieChart data={[
+                                                            {'title': 'Compound','value': detail.years.sentiment.compound,'color': '#E38627'},
+                                                            {'title': 'Negative','value': detail.years.sentiment.negative,'color': '#C13C37'},
+                                                            {'title': 'Neutral','value': detail.years.sentiment.neutral,'color': '#6A2135'},
+                                                            {'title': 'Positive','value': detail.years.sentiment.positive,'color': '#3A2135'}]}/>
+                                                    </p>
+                                                
                                             );
                                         })
-                                        // }
                                     }
-                                    </p>
+                                    </div>
                                 );
                             }
+                            // if (data.sentiment) {
+                            //     return (
+                            //         <div className="pie_content_block">
+                            //         {
+                            //             data.sentiment.map((detailSentiment, keyDetailSentiment) => {
+                            //                 return (
+                            //                     <p>
+                            //                     <PieChart data={detailSentiment} label={(data) => data.dataEntry.value.toFixed(2)}
+                            //                     labelPosition={65}
+                            //                     labelStyle={{
+                            //                       fontSize: "5px",
+                            //                       fontColor: "FFFFFA",
+                            //                       fontWeight: "500",
+                            //                     }}
+                            //                     />;
+                            //                     </p>
+                            //                 );
+                            //             })
+                            //             // }
+                            //         }
+                            //         </div>
+                            //     );
+                            // }
                         }): ''  
                     }
                     

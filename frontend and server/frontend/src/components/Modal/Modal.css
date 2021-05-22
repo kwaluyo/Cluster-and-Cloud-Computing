@@ -12,7 +12,7 @@ body {
     z-index: 9;
     background: #fff;
     width: 100%;
-    max-width: 300px;
+    max-width: 500px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -83,6 +83,16 @@ body {
     transition: all 1.3s;
     width: 100%;
 }
+.content_block {
+    width: 40%;
+    float: left;
+}
+.pie_content_block {
+    width: 50%;
+    margin-top:15%;
+    margin-left: 10%;
+    float:left;
+}
 
 .data_block {
     width: 100%;
@@ -90,8 +100,8 @@ body {
 }
 .label {
     text-align: left;
-    float:left;
-    width: 40%;
+    /* float:left;
+    width: 40%; */
     font-size: 14px;
 }
 
