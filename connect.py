@@ -4,10 +4,17 @@ couchserver = couchdb.Server("http://127.0.0.1:5984")
 # Set credentials if necessary
 couchserver.resource.credentials = ("admin", "admin")
 
+dbsentiment = "sentiments"
 dbincome = "income_aurin"
 dbsatisfaction = "satisfaction_aurin"
 dbsupport = "support_aurin"
 dbunemployment = "employment_aurin"
+
+if dbsentiment in couchserver:
+    dbSentiment = couchserver[dbsentiment]
+else:
+    dbSentiment = couchserver.create(dbsentiment)
+
 if dbincome in couchserver:
     dbIncome = couchserver[dbincome]
 else:
