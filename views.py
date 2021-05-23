@@ -14,13 +14,14 @@ def create_income_view(db):
         view.sync(db)
 
 def create_sentiment_view(db):
-    view = design.ViewDefinition('data', 'alldata', """
+    view = design.ViewDefinition('data', 'alldata2', """
         function (doc) {
             emit([doc.location,doc.time.slice(doc.time.length-4)], {compound:doc.sentiment.compound,negative:doc.sentiment.neg,
                 neutral:doc.sentiment.neu,positive:doc.sentiment.pos
-            });
+            },true);
         }
-        """)
+        """, '''\
+        _sum''', group=True)
     # if not view.get_doc(db):
     view.sync(db)
 
