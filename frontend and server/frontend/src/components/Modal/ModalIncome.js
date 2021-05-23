@@ -58,54 +58,11 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                     </div>
                                                 );
                                             }
-                                            return(
-                                                <p>
-                                                    {}
-                                                </p>
-                                            );
                                         })
                                     }
-                                    {/* {
-                                        data.docs.map((detail, keyDetail) => {
-                                            if (detail.years.sentiment)
-                                                return (
-                                                    <p>
-                                                        <PieChart data={[
-                                                            {'title': 'Compound','value': detail.years.sentiment.compound,'color': '#E38627'},
-                                                            {'title': 'Negative','value': detail.years.sentiment.negative,'color': '#C13C37'},
-                                                            {'title': 'Neutral','value': detail.years.sentiment.neutral,'color': '#6A2135'},
-                                                            {'title': 'Positive','value': detail.years.sentiment.positive,'color': '#3A2135'}]}/>
-                                                    </p>
-                                                
-                                            );
-                                        })
-                                    } */}
                                     </div>
                                 );
                             }
-                            // if (data.sentiment) {
-                            //     return (
-                            //         <div className="pie_content_block">
-                            //         {
-                            //             data.sentiment.map((detailSentiment, keyDetailSentiment) => {
-                            //                 return (
-                            //                     <p>
-                            //                     <PieChart data={detailSentiment} label={(data) => data.dataEntry.value.toFixed(2)}
-                            //                     labelPosition={65}
-                            //                     labelStyle={{
-                            //                       fontSize: "5px",
-                            //                       fontColor: "FFFFFA",
-                            //                       fontWeight: "500",
-                            //                     }}
-                            //                     />;
-                            //                     </p>
-                            //                 );
-                            //             })
-                            //             // }
-                            //         }
-                            //         </div>
-                            //     );
-                            // }
                         }): ''  
                     }
                 </div>
