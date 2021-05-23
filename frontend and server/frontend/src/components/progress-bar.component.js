@@ -6,6 +6,7 @@ const ProgressBar = (props) => {
       width: '100%',
       backgroundColor: "#9db0a2",
       borderRadius: 50,
+      textAlign:'justify'
     //   margin: 50
     }
   

@@ -12,7 +12,7 @@ body {
     z-index: 9;
     background: #fff;
     width: 100%;
-    max-width: 500px;
+    max-width: 1000px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -109,3 +109,20 @@ body {
     width:100px;
     float:right;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+  }
+  .grid-item {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .pie_block {
+      width:150px;
+      text-align: center;
+      margin-left:40px;
+      margin-top:10px;
+  }

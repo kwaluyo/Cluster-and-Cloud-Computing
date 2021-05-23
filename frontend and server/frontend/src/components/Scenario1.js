@@ -99,6 +99,7 @@ function Scenario1() {
             <button
               className="marker-btn"
               onClick={e => {
+                console.log(city.name)
                 setSelectedCity(city);
                 setCity(city.name);
                 getApiData(city.name);
