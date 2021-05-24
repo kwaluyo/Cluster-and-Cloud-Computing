@@ -3,7 +3,7 @@ import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import * as Cities from '../data/cities.json'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
 import { Link } from 'react-router-dom';
-import { Modal } from './Modal/ModalUnemployment';
+import { Modal } from './Modal/ModalSatisfaction';
 
 function Scenario4() {
   const [viewport, setViewport] = useState({
@@ -23,7 +23,7 @@ function Scenario4() {
   }, []);
 
   const getApiData = async (cityName) => {
-    const response = await fetch('/api/unemployment?city='+cityName);
+    const response = await fetch('/api/satisfaction?city='+cityName);
     const jsonData = await response.json();
     console.log(jsonData);
     setApiData(jsonData);
