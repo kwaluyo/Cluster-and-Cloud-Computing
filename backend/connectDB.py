@@ -8,7 +8,7 @@ password = "admin"
 
 def connect_to_couchdb_server(username, password, host, port):
     """
-    Establish connection ot couchdb server.
+    Establish connection to couchdb server.
     """
     couchdb_server = couchdb.Server('http://' + username + ':' + password + '@' + host + ':' + port)
     return couchdb_server

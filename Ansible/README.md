@@ -2,7 +2,7 @@
 
 # Ansible
 ## How to run
-    - ./deploy_instances.sh
+    - ./run-nectar.sh
 
 ## Fix pip installation error
     - sudo apt-get update
@@ -12,4 +12,4 @@
 ## Fix keystone authentication error
     - source the openrc.sh file by . openrc.sh
     - check that the environment variables are exported by env
-    - run the shell script again ./deploy_instances.sh
+    - run the shell script again ./run-nectar.sh
