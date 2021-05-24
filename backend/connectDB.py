@@ -1,7 +1,8 @@
 import couchdb
 
 # CouchDB environment variables
-host = "172.26.129.159"
+# host = "172.26.129.159"
+host = "127.0.0.1"
 port = "5984"
 username = "admin"
 password = "admin"
@@ -32,3 +33,4 @@ dbSatisfaction = connect_to_db(server, "satisfaction_aurin")
 dbSupport = connect_to_db(server, "support_aurin")
 dbUnemployment = connect_to_db(server, "employment_aurin")
 dbRaw = connect_to_db(server, "rawdata")
+dbRealTimeData = connect_to_db(server, "realtimedata")

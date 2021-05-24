@@ -127,8 +127,16 @@ body {
     display: grid;
     grid-template-columns: auto auto auto auto;
     padding: 10px;
-  }
-  .grid-item {
+}
+
+.grid-container-realdata {
+    display: grid;
+    grid-template-columns: auto;
+    padding: 10px;
+    width:500px;
+}
+
+.grid-item {
     padding: 10px;
     text-align: center;
   }

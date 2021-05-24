@@ -36,8 +36,8 @@ def create_sentiment_view(db):
     # if not view.get_doc(db):
     view.sync(db)
 
-def create_sentiment_satisfaction_view(db):
-    view = design.ViewDefinition('data', 'rekap', """
+def create_realtimedata_view(db):
+    view = design.ViewDefinition('data', 'realtime', """
         function (doc) {
             emit(doc.location, {compound:doc.sentiment.compound,negative:doc.sentiment.neg,
                 neutral:doc.sentiment.neu,positive:doc.sentiment.pos
@@ -51,4 +51,4 @@ def create_sentiment_satisfaction_view(db):
 create_income_view(connectDB.dbIncome)
 create_sentiment_view(connectDB.dbSentiment)
 create_unemployment_view(connectDB.dbUnemployment)
-create_sentiment_satisfaction_view(connectDB.dbSentiment)
+create_realtimedata_view(connectDB.dbRealTimeData)
