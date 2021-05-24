@@ -144,9 +144,22 @@ def api_citySatisfaction():
 
     # Create an empty list for our results
     results = []
+    result = []
+    sentiment = []
+    #adding sentiments
+    for row in connectDB.dbSentiment.view('_design/data/_view/rekap', group=True,key=city.upper()):
+        # keys = row['key']
+        # if keys[0] == city.upper():
+        row['value']['year'] =  row['key']
+        sentiment.append(row['value'])
 
-    for doc in connectDB.dbSatisfaction.find({'selector': {'city': city}}):
-        results.append(doc)
+    for row in connectDB.dbSatisfaction.find({'selector': {'city': city}}):
+        # results.append(row)
+        for line in sentiment:
+            row['years'] = {'sentiment':line}
+        result.append(row)
+    
+    results.append({'docs':result})
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
     response = jsonify(results)
