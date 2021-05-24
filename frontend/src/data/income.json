@@ -1,0 +1,7 @@
+{"cities" : [
+    {"ID": 1, "name": "Melbourne", "income": 10},
+    {"ID": 2, "name": "Sydney", "income": 20},
+    {"ID": 3, "name": "Adelaide", "income": 30},
+    {"ID": 4, "name": "Brisbane", "income": 40}
+]
+}

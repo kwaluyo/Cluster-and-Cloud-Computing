@@ -1,0 +1,4 @@
+- hosts: backend
+  gather_facts: true
+  roles:
+    - deploy-backend

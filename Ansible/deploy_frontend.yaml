@@ -1,0 +1,4 @@
+- hosts: frontend
+  gather_facts: true
+  roles:
+    - deploy-frontend

@@ -1,0 +1,7 @@
+{"cities" : [
+    {"ID": 1, "name": "Melbourne", "sentiment": 0.6},
+    {"ID": 2, "name": "Sydney", "sentiment": 0.3},
+    {"ID": 3, "name": "Adelaide", "sentiment": 0.5},
+    {"ID": 4, "name": "Brisbane", "sentiment": 0.9}
+]
+}
