@@ -8,7 +8,7 @@ couchserver = couchdb.Server(os.getenv('DB_URL'))
 # Set credentials if necessary
 couchserver.resource.credentials = (os.getenv('DB_USER'), os.getenv('DB_PASS'))
 
-dbsentiment = "sentiments"
+dbsentiment = "old_tweets"
 dbincome = "income_aurin"
 dbsatisfaction = "satisfaction_aurin"
 dbsupport = "support_aurin"
