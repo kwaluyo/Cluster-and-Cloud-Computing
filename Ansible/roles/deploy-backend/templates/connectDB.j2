@@ -1,23 +1,18 @@
 import couchdb
 
 # CouchDB environment variables
-host = "172.26.129.159"
-port = "5984"
-username = "admin"
-password = "admin"
+host = "{{ ansible_host }}"
+port = "{{ couchdb_port }}"
+username = "{{ couchdb_user }}"
+password = "{{couchdb_pass}}"
+
 
 def connect_to_couchdb_server(username, password, host, port):
-    """
-    Establish connection ot couchdb server.
-    """
     couchdb_server = couchdb.Server('http://' + username + ':' + password + '@' + host + ':' + port)
     return couchdb_server
 
 
 def connect_to_db(server, db_name):
-    """
-    Connect to or create a database with db_name.
-    """
     try:
         return server[db_name]
     except:
