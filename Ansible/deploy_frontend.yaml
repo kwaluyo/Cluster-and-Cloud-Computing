@@ -1,4 +1,6 @@
 - hosts: frontend
+  vars_files:
+    - host_vars/config.yaml
   gather_facts: true
   roles:
     - deploy-frontend

@@ -1,0 +1,10 @@
+# test_dynamic_aws_host_playbook.yml
+---
+  # Run the playbook for all ec2 instances sharing the tag Swarm=True
+- hosts: database
+  vars_files:
+    - host_vars/config.yaml
+  tasks:
+    - name: "Ping the instance with the database tag"
+      # https://docs.ansible.com/ansible/latest/modules/ping_module.html
+      ping:

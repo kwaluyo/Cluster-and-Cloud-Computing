@@ -1,35 +1,53 @@
 ---
-  - name: Log into DockerHub
-    docker_login:
-      registry: https://index.docker.io/v1/
-      username: "{{ username }}"
-      password: "{{ password }}"
-    delegate_to: localhost
+- name: Copy GitHub private key to server
+  copy:
+    src: "config/github.pem"
+    dest: /home/ubuntu/.ssh/github
+    owner: ubuntu
+    group: ubuntu
+    mode: 0600
 
-  - name: docker build & push to registry 
-    shell: docker build --no-cache -t {{ image_name }} . && docker push {{ image_name }}
-    delegate_to: localhost
-    args:
-      chdir: "../frontend/"
-  
-  - name: Log into DockerHub
-    become: yes 
-    docker_login:
-      registry: https://index.docker.io/v1/
-      username: "{{ username }}"
-      password: "{{ password }}"
+- name: git pull repository
+  shell: git pull
+  args:
+    chdir: '{{ git_repo }}'
 
-  - name: Docker run when ports defind and volumes not defined
-    become: yes 
-    docker_container:
-      name: "frontend"
-      image: "{{ image_name }}"
-      command: ""
-      restart_policy: "unless-stopped"
-      ports:
-        - "80:8080"
-    with_sequence: count=1
-    loop_control:
-      loop_var: seq
-    tags:
-      - docker-run
+- name: Remove github key
+  file:
+    path: /home/ubuntu/.ssh/github
+    state: absent
+
+# - name: Log into DockerHub
+#   docker_login:
+#     registry: https://index.docker.io/v1/
+#     username: "{{ username }}"
+#     password: "{{ password }}"
+#   delegate_to: localhost
+
+# - name: docker build & push to registry 
+#   shell: docker build --no-cache -t {{ image_name }} . && docker push {{ image_name }}
+#   delegate_to: localhost
+#   args:
+#     chdir: "../frontend/"
+
+# - name: Log into DockerHub
+#   become: yes 
+#   docker_login:
+#     registry: https://index.docker.io/v1/
+#     username: "{{ username }}"
+#     password: "{{ password }}"
+
+- name: Docker run when ports defind and volumes not defined
+  become: yes 
+  docker_container:
+    name: "frontend"
+    image: "radhidj/frontend:latest"
+    command: ""
+    restart_policy: "unless-stopped"
+    ports:
+      - "80:8080"
+  with_sequence: count=1
+  loop_control:
+    loop_var: seq
+  tags:
+    - docker-run

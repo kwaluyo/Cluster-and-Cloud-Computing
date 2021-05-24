@@ -6,6 +6,8 @@ echo "Please enter job number: "
 echo "1. Create instances"
 echo "2. Configure instances"
 echo "3. Deploy CouchDB cluster and Twitter harvester"
+echo "4. Deploy backend"
+echo "5. Deploy frontend"
 
 read inpt
 
@@ -18,6 +20,12 @@ case $inpt in
         ;;
     "3")
         ansible-playbook deploy_harvester.yaml -i inventory/hosts.ini
+        ;;
+    "4")
+        ansible-playbook deploy_backend.yaml -i inventory/hosts.ini
+        ;;
+    "5")
+        ansible-playbook deploy_frontend.yaml -i inventory/hosts.ini
         ;;
     *)
         echo "Invalid job number."
