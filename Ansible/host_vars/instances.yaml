@@ -55,6 +55,12 @@ security_groups:
     port_range_min: 2377
     port_range_max: 2377
     remote_ip_prefix: 0.0.0.0/0
+  - name: security-group-7
+    description: "react security group"
+    protocol: tcp
+    port_range_min: 3000
+    port_range_max: 3000
+    remote_ip_prefix: 0.0.0.0/0
 
 # Instance
 instances:
