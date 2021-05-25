@@ -28,8 +28,9 @@ export const Modal = ({ show, city, apidata,close }) => {
                                             return(
                                                 <div className="grid-item">
                                                     <div className="pie_block_satisfaction">
+                                                        <p>Compound : {detail.compound.toFixed(2)}</p>
                                                         <PieChart data={[
-                                                                    {'title': 'Compound','value': detail.compound,'color': '#E38627'},
+                                                                    // {'title': 'Compound','value': detail.compound,'color': '#E38627'},
                                                                     {'title': 'Negative','value': detail.negative,'color': '#C13C37'},
                                                                     {'title': 'Neutral','value': detail.neutral,'color': '#6A2135'},
                                                                     {'title': 'Positive','value': detail.positive,'color': '#3A2135'}]}
