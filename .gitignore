@@ -1,6 +1,4 @@
 # Byte-compiled / optimized / DLL files
-frontend/.eslintcache
-frontend/package-lock.json
 __pycache__/
 *.py[cod]
 *$py.class
