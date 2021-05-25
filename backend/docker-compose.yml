@@ -1,0 +1,16 @@
+version: '3'
+services:
+    backend:
+        image: radhidj/backend:latest
+        build: .
+        ports:
+            # port number on server that others can access: port number in container
+            - "80:5000"
+        volumes:
+            - .:/usr/src/app
+        environment:
+            flask_port: 5000
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: unless-stopped
