@@ -19,7 +19,7 @@
   roles:
      - role: deploy-git-repository
 
-- hosts: harvester
+- hosts: masternode
   gather_facts: true
   vars_files:
     - host_vars/config.yaml
