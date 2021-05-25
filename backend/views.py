@@ -48,7 +48,29 @@ def create_realtimedata_view(db):
     # if not view.get_doc(db):
     view.sync(db)
     
+def create_countSentimets_view(db):
+    view = design.ViewDefinition('data', 'countdata', """
+        function (doc) {
+            emit(doc.id, 1);
+        }
+        """, '''\
+        _count''')
+    # if not view.get_doc(db):
+    view.sync(db)
+
+def create_countTweets_view(db):
+    view = design.ViewDefinition('data', 'countdata', """
+        function (doc) {
+            emit(doc.id, 1);
+        }
+        """, '''\
+        _count''')
+    # if not view.get_doc(db):
+    view.sync(db)
+
 create_income_view(connectDB.dbIncome)
 create_sentiment_view(connectDB.dbSentiment)
 create_unemployment_view(connectDB.dbUnemployment)
 create_realtimedata_view(connectDB.dbRealTimeData)
+create_countSentimets_view(connectDB.dbSentiment)
+create_countTweets_view(connectDB.dbRealTimeData)

@@ -44,9 +44,9 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                     datasets: [
                                                       {
                                                         data: [
-                                                            detail.negative,
-                                                            detail.neutral,
-                                                            detail.positive
+                                                            (detail.negative/detail.total),
+                                                            (detail.neutral/detail.total),
+                                                            (detail.positive/detail.total)
                                                         ],
                                                         backgroundColor: chartColors,
                                                         hoverBackgroundColor: chartColors

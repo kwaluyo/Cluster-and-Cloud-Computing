@@ -45,11 +45,17 @@ def api_city():
             row['value']['year'] = keys[1]
             sentiment.append(row['value'])
 
+    
+
     for row in connectDB.dbIncome.view('_design/views/_view/data', key=city):
         # row['value']['years'] = {'year':row['value']['year']}
         for line in sentiment:
             if line['year'] == row['value']['year']:
                 row['value']['years'] = {'sentiment':line}
+        #adding count sentiments
+        for rowCount in connectDB.dbSentiment.view('_design/data/_view/countdata'):
+            row['value']['total'] = rowCount['value']
+
         result.append(row['value'])
 
     results.append({'docs':result})
@@ -86,6 +92,10 @@ def api_cityUnemp():
         for line in sentiment:
             if line['year'] == row['value']['year']:
                 row['value']['years'] = {'sentiment':line}
+        #adding count sentiments
+        for rowCount in connectDB.dbSentiment.view('_design/data/_view/countdata'):
+            row['value']['total'] = rowCount['value']
+
         result.append(row['value'])
 
     results.append({'docs':result})
@@ -112,17 +122,21 @@ def api_citySupport():
     result = []
     sentiment = []
     #adding sentiments
-    for row in connectDB.dbSentiment.view('_design/data/_view/alldata',group=True):
-        keys = row['key']
+    for rowSent in connectDB.dbSentiment.view('_design/data/_view/alldata',group=True):
+        keys = rowSent['key']
         if keys[0] == city.upper():
-            row['value']['year'] = keys[1]
-            sentiment.append(row['value'])
+            rowSent['value']['year'] = keys[1]
+            sentiment.append(rowSent['value'])
     
     for row in connectDB.dbSupport.find({'selector': {'city': city}}):
         # results.append(row)
         for line in sentiment:
             if line['year'] == row['year']:
                 row['years'] = {'sentiment':line}
+        #adding count sentiments
+        for rowCount in connectDB.dbSentiment.view('_design/data/_view/countdata'):
+            row['total'] = rowCount['value']
+            
         result.append(row)
 
     results.append({'docs':result})
@@ -151,6 +165,10 @@ def api_citySatisfaction():
         # keys = row['key']
         # if keys[0] == city.upper():
         row['value']['city'] =  row['key']
+         #adding count sentiments
+        for rowCount in connectDB.dbRealTimeData.view('_design/data/_view/countdata'):
+            row['value']['total'] = rowCount['value']
+
         result.append(row['value'])
 
     # for row in connectDB.dbSatisfaction.find({'selector': {'city': city}}):

@@ -50,9 +50,10 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                     labels: ["Negative", "Neutral", "Positive"],
                                                     datasets: [
                                                       {
-                                                        data: [detail.years.sentiment.negative,
-                                                            detail.years.sentiment.neutral,
-                                                            detail.years.sentiment.positive],
+                                                        data: [
+                                                            (detail.years.sentiment.negative/detail.total),
+                                                            (detail.years.sentiment.neutral/detail.total),
+                                                            (detail.years.sentiment.positive/detail.total)],
                                                         backgroundColor: chartColors,
                                                         hoverBackgroundColor: chartColors
                                                       }
