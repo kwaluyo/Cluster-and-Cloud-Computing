@@ -54,10 +54,10 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                         </div>
                                                         <div className="grid-item-2">
                                                             <PieChart data={[
-                                                                    {'title': 'Compound','value': detail.years.sentiment.compound,'color': '#E38627'},
-                                                                    {'title': 'Negative','value': detail.years.sentiment.negative,'color': '#C13C37'},
-                                                                    {'title': 'Neutral','value': detail.years.sentiment.neutral,'color': '#6A2135'},
-                                                                    {'title': 'Positive','value': detail.years.sentiment.positive,'color': '#3A2135'}]}
+                                                                    // {'title': 'Compound','value': detail.years.sentiment.compound,'color': '#E38627'},
+                                                                    {'title': 'Negative','value': detail.years.sentiment.negative,'color': '#F74749'},
+                                                                    {'title': 'Neutral','value': detail.years.sentiment.neutral,'color': '#FDB45C'},
+                                                                    {'title': 'Positive','value': detail.years.sentiment.positive,'color': '#47BEBE'}]}
                                                                     label={(data) => data.dataEntry.value.toFixed(2)}
                                                                     labelPosition={65}
                                                                     labelStyle={{

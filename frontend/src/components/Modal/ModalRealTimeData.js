@@ -31,9 +31,9 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                         <p>Compound : {detail.compound.toFixed(2)}</p>
                                                         <PieChart data={[
                                                                     // {'title': 'Compound','value': detail.compound,'color': '#E38627'},
-                                                                    {'title': 'Negative','value': detail.negative,'color': '#C13C37'},
-                                                                    {'title': 'Neutral','value': detail.neutral,'color': '#6A2135'},
-                                                                    {'title': 'Positive','value': detail.positive,'color': '#3A2135'}]}
+                                                                    {'title': 'Negative','value': detail.negative,'color': '#F74749'},
+                                                                    {'title': 'Neutral','value': detail.neutral,'color': '#FDB45C'},
+                                                                    {'title': 'Positive','value': detail.positive,'color': '#47BEBE'}]}
                                                                     label={(data) => data.dataEntry.value.toFixed(2)}
                                                                     labelPosition={65}
                                                                     labelStyle={{
