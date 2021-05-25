@@ -10,10 +10,10 @@ function Nav() {
             <div id="navMainMenu" class="navbar-collapse collapse">
                 <div class="navbar-nav">
                     <Link to='/' className="nav-item nav-link">Home</Link>
-                    <Link to='/scenario1' className="nav-item nav-link">Scenario 1</Link>
-                    <Link to='/scenario2' className="nav-item nav-link">Scenario 2</Link>
-                    <Link to='/scenario3' className="nav-item nav-link">Scenario 3</Link>
-                    <Link to='/scenario4' className="nav-item nav-link">Scenario 4</Link>
+                    <Link to='/scenario1' className="nav-item nav-link">Income</Link>
+                    <Link to='/scenario2' className="nav-item nav-link">Unemployment</Link>
+                    <Link to='/scenario3' className="nav-item nav-link">Support</Link>
+                    <Link to='/scenario4' className="nav-item nav-link">Live Stream Sentiment</Link>
                 </div>
             </div>
         </nav>
