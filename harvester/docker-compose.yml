@@ -1,8 +1,7 @@
 version: '3'
 services:
     harvester:
-        image: jeanabanto/comp90024:latest
-        build: .
+        image: comp90024-harvester:latest
         ports:
             - 5000:80
         volumes:
