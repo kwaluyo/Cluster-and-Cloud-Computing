@@ -78,6 +78,7 @@ def generate_swarm(hosts):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('-t', help='number of hosts for Twitter harvester')
     parser.add_argument('-b', help='number of hosts for the backend api')
     parser.add_argument('-f', help='number of hosts for the frontend web application')
     args = parser.parse_args()
@@ -85,6 +86,15 @@ if __name__ == "__main__":
     hosts = generate_hosts()
     n_hosts = len(hosts)
     used_hosts = []
+
+    if args.t:
+        n_harvester = int(args.t)
+        if n_hosts >= n_harvester:
+            generate_hosts_for_application(hosts, n_harvester, "harvester")
+        else:
+            raise Exception("Too few hosts for number of application required")
+    else: # default: allocate 1 host
+        generate_hosts_for_application(hosts, 1, "harvester")
 
     if args.b:
         n_backend = int(args.b)
