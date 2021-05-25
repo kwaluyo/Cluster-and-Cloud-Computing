@@ -45,7 +45,7 @@
     command: ""
     restart_policy: "unless-stopped"
     ports:
-      - "80:8080"
+      - "80:3000"
     env:
       http_proxy: http://wwwproxy.unimelb.edu.au:8000/
       https_proxy: http://wwwproxy.unimelb.edu.au:8000/
