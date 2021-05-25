@@ -1,7 +1,7 @@
 import couchdb
 
 # CouchDB environment variables
-host = "172.26.129.159"
+host = "172.26.130.64"
 # host = "127.0.0.1"
 port = "5984"
 username = "admin"
