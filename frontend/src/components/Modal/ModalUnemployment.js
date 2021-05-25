@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from "react";
 import './Modal.css';
 import ProgressBar from "../progress-bar.component";
-import { PieChart } from 'react-minimal-pie-chart';
-
+import { Pie } from 'react-chartjs-2';
+import { chartColors } from "../colors";
 // export default Modal;
 export const Modal = ({ show, city, apidata,close }) => {
     return  (
@@ -27,13 +27,47 @@ export const Modal = ({ show, city, apidata,close }) => {
                                     {
                                         data.docs.map((detail, keyDetail) => {
                                             if(detail.years) {
+                                                let chartInstance = null;
+                                                const pieOptions = {
+                                                    legend: {
+                                                      display: true,
+                                                      position: "left"
+                                                    },
+                                                    elements: {
+                                                      arc: {
+                                                        borderWidth: 0
+                                                      }
+                                                    }
+                                                  };
+                                                  
+                                                  const data = {
+                                                    maintainAspectRatio: false,
+                                                    responsive: false,
+                                                    labels: ["Negative", "Neutral", "Positive"],
+                                                    datasets: [
+                                                      {
+                                                        data: [detail.years.sentiment.negative,
+                                                            detail.years.sentiment.neutral,
+                                                            detail.years.sentiment.positive],
+                                                        backgroundColor: chartColors,
+                                                        hoverBackgroundColor: chartColors
+                                                      }
+                                                    ]
+                                                  };
                                                 return(
                                                     <div className="grid-item">
                                                         <div className="label">Year : {detail.year}</div>
                                                         <div className="label">Average : {detail.rate}</div>
                                                         <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={detail.rate.toFixed(2)} /></div>
                                                         <div className="pie_block">
-                                                        <PieChart data={[
+                                                            <Pie
+                                                                data={data}
+                                                                options={pieOptions}
+                                                                ref={input => {
+                                                                chartInstance = input;
+                                                                }}
+                                                            />
+                                                        {/* <PieChart data={[
                                                                     // {'title': 'Compound','value': detail.years.sentiment.compound,'color': '#E38627'},
                                                                     {'title': 'Negative','value': detail.years.sentiment.negative,'color': '#F74749'},
                                                                     {'title': 'Neutral','value': detail.years.sentiment.neutral,'color': '#FDB45C'},
@@ -45,7 +79,7 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                                     fontColor: "FFFFFA",
                                                                     fontWeight: "auto",
                                                                     }}
-                                                            />
+                                                            /> */}
                                                         </div>
                                                     </div>
                                                 );
