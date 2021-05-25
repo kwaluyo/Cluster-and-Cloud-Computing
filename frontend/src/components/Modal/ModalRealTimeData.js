@@ -72,9 +72,9 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                                     label={(data) => data.dataEntry.value.toFixed(2)}
                                                                     labelPosition={65}
                                                                     labelStyle={{
-                                                                    fontSize: "10px",
+                                                                    fontSize: "8px",
                                                                     fontColor: "FFFFFA",
-                                                                    fontWeight: "500",
+                                                                    fontWeight: "auto",
                                                                     }}
                                                             /> */}
                                                         </div>
