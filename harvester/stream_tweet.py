@@ -1,6 +1,15 @@
 #!/usr/bin/python3
 # tweepy-harvester/harvester/stream_tweet.py
 
+'''
+COMP90024
+Team 17
+Jeanelle Abanto: 1133815
+Kartika Waluyo: 1000555
+Radhimas Djan: 1146240
+Zi Jin: 987771  
+'''
+
 from __future__ import absolute_import, print_function
 
 import json

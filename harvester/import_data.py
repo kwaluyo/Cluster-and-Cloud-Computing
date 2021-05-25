@@ -1,3 +1,12 @@
+'''
+COMP90024
+Team 17
+Jeanelle Abanto: 1133815
+Kartika Waluyo: 1000555
+Radhimas Djan: 1146240
+Zi Jin: 987771  
+'''
+
 import os
 import json
 
