@@ -142,9 +142,9 @@ body {
   }
 
   .pie_block {
-      width:150px;
+      width:220px;
       text-align: center;
-      margin-left:40px;
+      /* margin-left:40px; */
       margin-top:10px;
   }
 

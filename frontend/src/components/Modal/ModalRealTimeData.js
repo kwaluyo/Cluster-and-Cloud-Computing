@@ -1,8 +1,7 @@
 import React, {useState,useEffect} from "react";
 import './Modal.css';
-import ProgressBar from "../progress-bar.component";
-import { PieChart } from 'react-minimal-pie-chart';
-
+import { Pie } from 'react-chartjs-2';
+import { chartColors } from "../colors";
 // export default Modal;
 export const Modal = ({ show, city, apidata,close }) => {
     return  (
@@ -25,11 +24,47 @@ export const Modal = ({ show, city, apidata,close }) => {
                                     <div className="grid-container-realdata">
                                     {
                                         data.docs.map((detail, keyDetail) => {
+                                            let chartInstance = null;
+                                                const pieOptions = {
+                                                    legend: {
+                                                      display: true,
+                                                      position: "left"
+                                                    },
+                                                    elements: {
+                                                      arc: {
+                                                        borderWidth: 0
+                                                      }
+                                                    }
+                                                  };
+                                                  
+                                                  const data = {
+                                                    maintainAspectRatio: false,
+                                                    responsive: false,
+                                                    labels: ["Negative", "Neutral", "Positive"],
+                                                    datasets: [
+                                                      {
+                                                        data: [
+                                                            detail.negative,
+                                                            detail.neutral,
+                                                            detail.positive
+                                                        ],
+                                                        backgroundColor: chartColors,
+                                                        hoverBackgroundColor: chartColors
+                                                      }
+                                                    ]
+                                                  };
                                             return(
                                                 <div className="grid-item">
                                                     <div className="pie_block_satisfaction">
                                                         <p>Compound : {detail.compound.toFixed(2)}</p>
-                                                        <PieChart data={[
+                                                        <Pie
+                                                                data={data}
+                                                                options={pieOptions}
+                                                                ref={input => {
+                                                                chartInstance = input;
+                                                                }}
+                                                            />
+                                                        {/* <PieChart data={[
                                                                     // {'title': 'Compound','value': detail.compound,'color': '#E38627'},
                                                                     {'title': 'Negative','value': detail.negative,'color': '#F74749'},
                                                                     {'title': 'Neutral','value': detail.neutral,'color': '#FDB45C'},
@@ -41,7 +76,7 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                                     fontColor: "FFFFFA",
                                                                     fontWeight: "500",
                                                                     }}
-                                                            />
+                                                            /> */}
                                                         </div>
                                                 </div>                                                   
                                             );
