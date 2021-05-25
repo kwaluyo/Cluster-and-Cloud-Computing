@@ -168,4 +168,4 @@ def api_citySatisfaction():
     # response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-app.run()
+app.run(host="0.0.0.0")
