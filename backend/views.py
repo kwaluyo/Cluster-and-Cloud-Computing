@@ -51,7 +51,7 @@ def create_realtimedata_view(db):
 def create_countSentimets_view(db):
     view = design.ViewDefinition('data', 'countdata', """
         function (doc) {
-            emit(doc.id, 1);
+            emit([doc.location,doc.time.slice(doc.time.length-4)], 1);
         }
         """, '''\
         _count''')

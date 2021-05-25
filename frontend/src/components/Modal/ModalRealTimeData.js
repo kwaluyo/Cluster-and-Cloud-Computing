@@ -56,7 +56,7 @@ export const Modal = ({ show, city, apidata,close }) => {
                                             return(
                                                 <div className="grid-item">
                                                     <div className="pie_block_satisfaction">
-                                                        <p>Compound : {detail.compound.toFixed(2)}</p>
+                                                        {/* <p>Compound : {detail.compound.toFixed(2)}</p> */}
                                                         <Pie
                                                                 data={data}
                                                                 options={pieOptions}

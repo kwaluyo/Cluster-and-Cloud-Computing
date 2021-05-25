@@ -62,8 +62,8 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                 return(
                                                     <div className="grid-item">
                                                         <div className="label">Year : {detail.year}</div>
-                                                        <div className="label">Average : {detail.mean}</div>
-                                                        <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={Number((detail.mean/100000)*100).toFixed(2)} /></div>
+                                                        <div className="label">Income Average : {detail.mean}</div>
+                                                        {/* <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={Number((detail.mean/100000)*100).toFixed(2)} /></div> */}
                                                         <div className="pie_block">
                                                             <Pie
                                                                 data={data}
@@ -92,8 +92,8 @@ export const Modal = ({ show, city, apidata,close }) => {
                                                 return(
                                                     <div className="grid-item">
                                                         <div className="label">Year : {detail.year}</div>
-                                                        <div className="label">Average : {detail.mean}</div>
-                                                        <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={Number((detail.mean/100000)*100).toFixed(2)} /></div>
+                                                        <div className="label">Income Average : {detail.mean}</div>
+                                                        {/* <div><ProgressBar key={keyDetail} bgcolor="#6a1b9a" completed={Number((detail.mean/100000)*100).toFixed(2)} /></div> */}
                                                     </div>
                                                 );
                                             }

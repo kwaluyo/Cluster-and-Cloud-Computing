@@ -37,7 +37,7 @@ def api_city():
     results = []
     result = []
     sentiment = []
-    
+    counts = []
     #adding sentiments
     for row in connectDB.dbSentiment.view('_design/data/_view/alldata',group=True):
         keys = row['key']
@@ -45,16 +45,17 @@ def api_city():
             row['value']['year'] = keys[1]
             sentiment.append(row['value'])
 
-    
-
     for row in connectDB.dbIncome.view('_design/views/_view/data', key=city):
         # row['value']['years'] = {'year':row['value']['year']}
         for line in sentiment:
             if line['year'] == row['value']['year']:
                 row['value']['years'] = {'sentiment':line}
+        
         #adding count sentiments
-        for rowCount in connectDB.dbSentiment.view('_design/data/_view/countdata'):
-            row['value']['total'] = rowCount['value']
+        for rowCounts in connectDB.dbSentiment.view('_design/counting/_view/countdata',group=True):
+            keysCount = rowCounts['key']
+            if keysCount[0] == row['value']['city'].upper() and keysCount[1] == row['value']['year']:
+                row['value']['total'] = rowCounts['value']
 
         result.append(row['value'])
 
@@ -93,8 +94,10 @@ def api_cityUnemp():
             if line['year'] == row['value']['year']:
                 row['value']['years'] = {'sentiment':line}
         #adding count sentiments
-        for rowCount in connectDB.dbSentiment.view('_design/data/_view/countdata'):
-            row['value']['total'] = rowCount['value']
+        for rowCounts in connectDB.dbSentiment.view('_design/counting/_view/countdata',group=True):
+            keysCount = rowCounts['key']
+            if keysCount[0] == row['value']['city'].upper() and keysCount[1] == row['value']['year']:
+                row['value']['total'] = rowCounts['value']
 
         result.append(row['value'])
 
@@ -134,8 +137,10 @@ def api_citySupport():
             if line['year'] == row['year']:
                 row['years'] = {'sentiment':line}
         #adding count sentiments
-        for rowCount in connectDB.dbSentiment.view('_design/data/_view/countdata'):
-            row['total'] = rowCount['value']
+        for rowCounts in connectDB.dbSentiment.view('_design/counting/_view/countdata',group=True):
+            keysCount = rowCounts['key']
+            if keysCount[0] == row['city'].upper() and keysCount[1] == row['year']:
+                row['total'] = rowCounts['value']    
             
         result.append(row)
 
