@@ -35,38 +35,3 @@
   shell: docker-compose up -d --build
   args:
     chdir: /home/ubuntu/COMP90024/ccc_assg2/backend
-
-# - name: Log into DockerHub
-#   docker_login:
-#     registry: https://index.docker.io/v1/
-#     username: "{{ username }}"
-#     password: "{{ password }}"
-#   delegate_to: localhost
-
-# - name: docker build & push to registry 
-#   shell: docker build --no-cache -t {{ image_name }} . && docker push {{ image_name }}
-#   delegate_to: localhost
-#   args:
-#     chdir: "../backend/"
-
-# - name: Log into DockerHub
-#   become: yes 
-#   docker_login:
-#     registry: https://index.docker.io/v1/
-#     username: "{{ username }}"
-#     password: "{{ password }}"
-
-# - name: Docker run when ports defind and volumes not defined
-#   become: yes 
-#   docker_container:
-#     name: "backend"
-#     image: "radhidj/backend:latest"
-#     command: ""
-#     restart_policy: "unless-stopped"
-#     ports:
-#       - "80:5000"
-#   with_sequence: count=1
-#   loop_control:
-#     loop_var: seq
-#   tags:
-#     - docker-run
