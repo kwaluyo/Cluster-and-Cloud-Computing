@@ -17,12 +17,24 @@
     path: /home/ubuntu/.ssh/github
     state: absent
 
-# - name: Create db connection file
-#   become: 
-#     yes
-#   template:
-#     src: connectDB.j2
-#     dest: '{{remote_working_directory}}/ccc_assg2/backend/connectDB.py'
+- name: Create db connection file
+  become: 
+    yes
+  template:
+    src: connectDB.j2
+    dest: '{{remote_working_directory}}/ccc_assg2/backend/connectDB.py'
+
+- name: Shut down previous server
+  become:
+    yes
+  shell: docker-compose down --rmi local
+  args:
+    chdir: /home/ubuntu/COMP90024/ccc_assg2/backend
+
+- name: Start server
+  shell: docker-compose up -d --build
+  args:
+    chdir: /home/ubuntu/COMP90024/ccc_assg2/backend
 
 # - name: Log into DockerHub
 #   docker_login:
@@ -44,23 +56,17 @@
 #     username: "{{ username }}"
 #     password: "{{ password }}"
 
-- name: Docker run when ports defind and volumes not defined
-  become: yes 
-  docker_container:
-    name: "backend"
-    image: "radhidj/backend:latest"
-    command: ""
-    restart_policy: "unless-stopped"
-    ports:
-      - "80:5000"
-    env:
-      http_proxy: http://wwwproxy.unimelb.edu.au:8000/
-      https_proxy: http://wwwproxy.unimelb.edu.au:8000/
-      HTTP_PROXY: http://wwwproxy.unimelb.edu.au:8000/
-      HTTPS_PROXY: http://wwwproxy.unimelb.edu.au:8000/
-      no_proxy: localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.nectar.org.au,.storage.u nimelb.edu.au,.cloud.unimelb.edu.au
-  with_sequence: count=1
-  loop_control:
-    loop_var: seq
-  tags:
-    - docker-run
+# - name: Docker run when ports defind and volumes not defined
+#   become: yes 
+#   docker_container:
+#     name: "backend"
+#     image: "radhidj/backend:latest"
+#     command: ""
+#     restart_policy: "unless-stopped"
+#     ports:
+#       - "80:5000"
+#   with_sequence: count=1
+#   loop_control:
+#     loop_var: seq
+#   tags:
+#     - docker-run
