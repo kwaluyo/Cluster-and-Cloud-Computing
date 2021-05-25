@@ -59,9 +59,9 @@ def create_countSentimets_view(db):
     view.sync(db)
 
 def create_countTweets_view(db):
-    view = design.ViewDefinition('data', 'countdata', """
+    view = design.ViewDefinition('counting', 'countdata', """
         function (doc) {
-            emit(doc.id, 1);
+            emit([doc.location,doc.time.slice(doc.time.length-4)], 1);
         }
         """, '''\
         _count''')
