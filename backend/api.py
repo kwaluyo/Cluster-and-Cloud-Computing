@@ -45,7 +45,7 @@ def api_city():
             row['value']['year'] = keys[1]
             sentiment.append(row['value'])
 
-    for row in connectDB.dbIncome.view('_design/views/_view/income', key=city):
+    for row in connectDB.dbIncome.view('_design/views/_view/data', key=city):
         # row['value']['years'] = {'year':row['value']['year']}
         for line in sentiment:
             if line['year'] == row['value']['year']:
